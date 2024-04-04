@@ -4,6 +4,7 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
+
 namespace WindowsFormsApp1
 {
     public partial class LoginForm : Form
@@ -59,13 +60,26 @@ namespace WindowsFormsApp1
                 MessageBox.Show("Не удалось установить соединение с базой данных.");
             }
         }
+        private void registerLabel_MouseEnter(object sender, EventArgs e)
+        {
+            registerLabel.Font = new Font(registerLabel.Font, FontStyle.Underline);
+        }
 
+        private void registerLabel_MouseLeave(object sender, EventArgs e)
+        {
+            registerLabel.Font = new Font(registerLabel.Font, FontStyle.Regular);
+        }
         private void registerLabel_Click(object sender, EventArgs e)
         {
             this.Hide();
             RegisterForm registerForm = new RegisterForm();
             registerForm.Show();
 
+        }
+
+        private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

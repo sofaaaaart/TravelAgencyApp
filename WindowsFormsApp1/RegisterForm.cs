@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.Data;
 using System.Globalization;
+using System.Drawing;
 
 namespace WindowsFormsApp1
 {
@@ -62,5 +63,30 @@ namespace WindowsFormsApp1
             }
             return false;
         }
+
+        private void back_MouseEnter(object sender, EventArgs e)
+        {
+            back.Font = new System.Drawing.Font(back.Font, FontStyle.Underline);
+        }
+
+        private void back_MouseLeave(object sender, EventArgs e)
+        {
+            back.Font = new System.Drawing.Font(back.Font, FontStyle.Regular);
+        }
+        private void back_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            LoginForm loginForm = new LoginForm();
+            loginForm.Show();
+        }
+
+     
+        private void RegisterForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
+
+
+        
     }
 }

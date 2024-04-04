@@ -31,6 +31,7 @@ namespace WindowsFormsApp1
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RegisterForm));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.back = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.datefield = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -55,6 +56,7 @@ namespace WindowsFormsApp1
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(226)))), ((int)(((byte)(232)))));
+            this.panel1.Controls.Add(this.back);
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.datefield);
             this.panel1.Controls.Add(this.label5);
@@ -74,6 +76,20 @@ namespace WindowsFormsApp1
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(434, 561);
             this.panel1.TabIndex = 1;
+            // 
+            // back
+            // 
+            this.back.AutoSize = true;
+            this.back.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.back.Location = new System.Drawing.Point(199, 499);
+            this.back.Name = "back";
+            this.back.Size = new System.Drawing.Size(57, 21);
+            this.back.TabIndex = 14;
+            this.back.Text = "Назад";
+            this.back.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.back.Click += new System.EventHandler(this.back_Click);
+            this.back.MouseEnter += new System.EventHandler(this.back_MouseEnter);
+            this.back.MouseLeave += new System.EventHandler(this.back_MouseLeave);
             // 
             // label6
             // 
@@ -152,7 +168,7 @@ namespace WindowsFormsApp1
             this.buttonLogin.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
             this.buttonLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonLogin.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonLogin.Location = new System.Drawing.Point(97, 493);
+            this.buttonLogin.Location = new System.Drawing.Point(101, 466);
             this.buttonLogin.Name = "buttonLogin";
             this.buttonLogin.Size = new System.Drawing.Size(255, 30);
             this.buttonLogin.TabIndex = 5;
@@ -230,6 +246,7 @@ namespace WindowsFormsApp1
             this.Name = "RegisterForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "RegisterForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RegisterForm_FormClosing);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
@@ -257,5 +274,6 @@ namespace WindowsFormsApp1
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox datefield;
+        private System.Windows.Forms.Label back;
     }
 }

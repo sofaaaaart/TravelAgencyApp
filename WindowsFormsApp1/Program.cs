@@ -16,7 +16,15 @@ namespace WindowsFormsApp1
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LoginForm());
+            LoginForm loginForm = new LoginForm();
+
+            // Запускаем приложение с первой формой
+            Application.Run(loginForm);
+        }
+
+        private static void AnyForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

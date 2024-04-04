@@ -65,12 +65,14 @@ namespace WindowsFormsApp1
             // 
             this.registerLabel.AutoSize = true;
             this.registerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.registerLabel.Location = new System.Drawing.Point(173, 339);
+            this.registerLabel.Location = new System.Drawing.Point(171, 318);
             this.registerLabel.Name = "registerLabel";
             this.registerLabel.Size = new System.Drawing.Size(106, 20);
             this.registerLabel.TabIndex = 4;
             this.registerLabel.Text = "Регистрация";
             this.registerLabel.Click += new System.EventHandler(this.registerLabel_Click);
+            this.registerLabel.MouseEnter += new System.EventHandler(this.registerLabel_MouseEnter);
+            this.registerLabel.MouseLeave += new System.EventHandler(this.registerLabel_MouseLeave);
             // 
             // label5
             // 
@@ -165,6 +167,7 @@ namespace WindowsFormsApp1
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LoginForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LoginForm_FormClosing);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
