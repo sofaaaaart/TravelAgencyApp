@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using MySql.Data.Types;
 using System;
 using System.Data;
 using System.Drawing;
@@ -38,22 +39,32 @@ namespace WindowsFormsApp1
                 DataTable table = new DataTable();
                 MySqlDataAdapter adapter = new MySqlDataAdapter();
 
-                MySqlCommand command = new MySqlCommand("SELECT * FROM stufff WHERE s_login = @sl AND s_password = @sp", connection);
+                MySqlCommand command = new MySqlCommand("SELECT s_login, s_password FROM stufff WHERE s_login = @sl AND s_password = @sp", connection);
                 command.Parameters.Add("@sl", MySqlDbType.VarChar).Value = loginUser;
                 command.Parameters.Add("@sp", MySqlDbType.VarChar).Value = passUser;
-
                 adapter.SelectCommand = command;
-                adapter.Fill(table);
-
-                if (table.Rows.Count > 0)
-                {
-                    MessageBox.Show("Yes");
-                    //this.Hide();
-                   //MainForm mainForm = new MainForm();
-                    //mainForm.Show();
+                try
+{
+                    adapter.Fill(table);
+                    if (table.Rows.Count > 0)
+                    {
+                        this.Hide();
+                        MainForm mainForm = new MainForm(connection);
+                        mainForm.Show();
+                    }
+                    else
+                        MessageBox.Show("Неверный логин или пароль.");
                 }
-                else
-                    MessageBox.Show("No");
+                catch (MySqlConversionException ex)
+                {
+                    MessageBox.Show("Ошибка конвертации значения: " + ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Произошла ошибка: " + ex.Message);
+                }
+             
+                               
             }
             else
             {

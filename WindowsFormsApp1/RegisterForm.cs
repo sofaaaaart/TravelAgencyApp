@@ -43,7 +43,7 @@ namespace WindowsFormsApp1
             {
                 MessageBox.Show("Аккаунт создан");
                 this.Hide();
-                MainForm mainForm = new MainForm();
+                MainForm mainForm = new MainForm(connection);
                 mainForm.Show();
             }
             else
