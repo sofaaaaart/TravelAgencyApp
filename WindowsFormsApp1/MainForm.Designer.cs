@@ -30,23 +30,25 @@ namespace WindowsFormsApp1
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonDelete = new System.Windows.Forms.Button();
+            this.buttonFill = new System.Windows.Forms.Button();
+            this.comboBoxTables = new System.Windows.Forms.ComboBox();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.comboBoxTables = new System.Windows.Forms.ComboBox();
-            this.buttonFill = new System.Windows.Forms.Button();
-            this.buttonDelete = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.AutoSize = true;
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(226)))), ((int)(((byte)(232)))));
+            this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.buttonDelete);
             this.panel1.Controls.Add(this.buttonFill);
             this.panel1.Controls.Add(this.comboBoxTables);
@@ -57,6 +59,40 @@ namespace WindowsFormsApp1
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1217, 561);
             this.panel1.TabIndex = 1;
+            // 
+            // buttonDelete
+            // 
+            this.buttonDelete.Location = new System.Drawing.Point(380, 470);
+            this.buttonDelete.Name = "buttonDelete";
+            this.buttonDelete.Size = new System.Drawing.Size(75, 23);
+            this.buttonDelete.TabIndex = 5;
+            this.buttonDelete.Text = "button2";
+            this.buttonDelete.UseVisualStyleBackColor = true;
+            // 
+            // buttonFill
+            // 
+            this.buttonFill.Location = new System.Drawing.Point(88, 470);
+            this.buttonFill.Name = "buttonFill";
+            this.buttonFill.Size = new System.Drawing.Size(75, 23);
+            this.buttonFill.TabIndex = 4;
+            this.buttonFill.Text = "button1";
+            this.buttonFill.UseVisualStyleBackColor = true;
+            // 
+            // comboBoxTables
+            // 
+            this.comboBoxTables.FormattingEnabled = true;
+            this.comboBoxTables.Location = new System.Drawing.Point(88, 120);
+            this.comboBoxTables.Name = "comboBoxTables";
+            this.comboBoxTables.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxTables.TabIndex = 3;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(88, 162);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(1093, 211);
+            this.dataGridView1.TabIndex = 2;
             // 
             // panel2
             // 
@@ -90,39 +126,15 @@ namespace WindowsFormsApp1
             this.pictureBox2.TabIndex = 3;
             this.pictureBox2.TabStop = false;
             // 
-            // dataGridView1
+            // button1
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(88, 162);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(1093, 211);
-            this.dataGridView1.TabIndex = 2;
-            // 
-            // comboBoxTables
-            // 
-            this.comboBoxTables.FormattingEnabled = true;
-            this.comboBoxTables.Location = new System.Drawing.Point(88, 120);
-            this.comboBoxTables.Name = "comboBoxTables";
-            this.comboBoxTables.Size = new System.Drawing.Size(121, 21);
-            this.comboBoxTables.TabIndex = 3;
-            // 
-            // buttonFill
-            // 
-            this.buttonFill.Location = new System.Drawing.Point(88, 470);
-            this.buttonFill.Name = "buttonFill";
-            this.buttonFill.Size = new System.Drawing.Size(75, 23);
-            this.buttonFill.TabIndex = 4;
-            this.buttonFill.Text = "button1";
-            this.buttonFill.UseVisualStyleBackColor = true;
-            // 
-            // buttonDelete
-            // 
-            this.buttonDelete.Location = new System.Drawing.Point(380, 470);
-            this.buttonDelete.Name = "buttonDelete";
-            this.buttonDelete.Size = new System.Drawing.Size(75, 23);
-            this.buttonDelete.TabIndex = 5;
-            this.buttonDelete.Text = "button2";
-            this.buttonDelete.UseVisualStyleBackColor = true;
+            this.button1.Location = new System.Drawing.Point(219, 470);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.buttonInsert_Click);
             // 
             // MainForm
             // 
@@ -135,9 +147,9 @@ namespace WindowsFormsApp1
             this.Text = "MainForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -153,5 +165,6 @@ namespace WindowsFormsApp1
         private System.Windows.Forms.Button buttonDelete;
         private System.Windows.Forms.Button buttonFill;
         private System.Windows.Forms.ComboBox comboBoxTables;
+        private System.Windows.Forms.Button button1;
     }
 }
