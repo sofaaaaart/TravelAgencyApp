@@ -43,17 +43,32 @@ namespace WindowsFormsApp1
                 command.Parameters.Add("@sl", MySqlDbType.VarChar).Value = loginUser;
                 command.Parameters.Add("@sp", MySqlDbType.VarChar).Value = passUser;
                 adapter.SelectCommand = command;
+
                 try
-{
+                {
                     adapter.Fill(table);
-                    if (table.Rows.Count > 0)
+                    // Проверка, если такого пользователя в таблице нет
+                    MySqlCommand checkCommand = new MySqlCommand("SELECT COUNT(*) FROM stufff WHERE s_login = @sl", connection);
+                    checkCommand.Parameters.Add("@sl", MySqlDbType.VarChar).Value = loginUser;
+                    int userCount = Convert.ToInt32(checkCommand.ExecuteScalar());
+
+                    if (userCount == 0)
                     {
-                        this.Hide();
-                        MainForm mainForm = new MainForm(connection);
-                        mainForm.Show();
+                        MessageBox.Show("Пользователь с таким логином не существует.");
                     }
                     else
-                        MessageBox.Show("Неверный логин или пароль.");
+                    {
+                        if (table.Rows.Count > 0)
+                        {
+                            this.Hide();
+                            MainForm mainForm = new MainForm(connection);
+                            mainForm.Show();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Неверный логин или пароль.");
+                        }
+                    }
                 }
                 catch (MySqlConversionException ex)
                 {
@@ -62,9 +77,8 @@ namespace WindowsFormsApp1
                 catch (Exception ex)
                 {
                     MessageBox.Show("Произошла ошибка: " + ex.Message);
-                }
-             
-                               
+                } 
+            
             }
             else
             {

@@ -11,6 +11,11 @@ namespace WindowsFormsApp1
         private MySqlConnection connection;
         private DataTable currentTable;
 
+        public void RefreshData()
+        {
+            LoadTablesIntoComboBox(); // Перезагрузка данных в комбо-боксе
+            comboBoxTables_SelectedIndexChanged(null, null); // Вызов метода, обрабатывающего изменение выбора таблицы
+        }
         public MainForm(MySqlConnection existingConnection)
         {
             InitializeComponent();
@@ -26,13 +31,20 @@ namespace WindowsFormsApp1
             this.FormClosing += MainForm_FormClosing;
         }
 
-        private void LoadTablesIntoComboBox()
+        public void LoadTablesIntoComboBox()
         {
             if (connection != null)
             {
                 try
                 {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+
                     DataTable tables = connection.GetSchema("Tables");
+
+                    // Очищаем список перед добавлением новых таблиц
+                    comboBoxTables.Items.Clear();
+
                     foreach (DataRow row in tables.Rows)
                     {
                         string tableName = row["TABLE_NAME"].ToString();
@@ -42,6 +54,11 @@ namespace WindowsFormsApp1
                 catch (Exception ex)
                 {
                     MessageBox.Show("Ошибка при загрузке таблиц: " + ex.Message);
+                }
+                finally
+                {
+                    if (connection.State == ConnectionState.Open)
+                        connection.Close();
                 }
             }
             else
@@ -56,7 +73,7 @@ namespace WindowsFormsApp1
             return columnName.EndsWith("_id", StringComparison.OrdinalIgnoreCase) || columnName.Equals("reg_date", StringComparison.OrdinalIgnoreCase);
         }
 
-        private void comboBoxTables_SelectedIndexChanged(object sender, EventArgs e)
+        public void comboBoxTables_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selectedTable = comboBoxTables.SelectedItem?.ToString();
             if (!string.IsNullOrEmpty(selectedTable) && connection != null)
@@ -112,8 +129,16 @@ namespace WindowsFormsApp1
 
         private void buttonFill_Click(object sender, EventArgs e)
         {
-            // Здесь можно добавить логику для заполнения таблицы
-            MessageBox.Show("Функционал заполнения таблицы еще не реализован.");
+            string selectedTable = comboBoxTables.SelectedItem?.ToString();
+            if (!string.IsNullOrEmpty(selectedTable))
+            {
+                InsertForm insertForm = new InsertForm(selectedTable, connection, this); // Передача ссылки на MainForm
+                insertForm.Show();
+            }
+            else
+            {
+                MessageBox.Show("Выберите таблицу для вставки данных.");
+            }
         }
 
         private void buttonDelete_Click(object sender, EventArgs e)
@@ -192,7 +217,9 @@ namespace WindowsFormsApp1
             }
             finally
             {
-                connection.Close();
+                // Закрытие соединения
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
             }
 
             return primaryKeyColumn;

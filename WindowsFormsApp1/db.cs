@@ -5,7 +5,7 @@ using MySql.Data.MySqlClient;
 public static class DatabaseInitializer
 {
     private static string connectionString = "host=localhost;port=3306;user=root;password=;";
-    private static string databaseName = "db_touragency";
+    private static string databaseName = "db_ta";
 
     public static MySqlConnection InitializeDatabase()
     {
