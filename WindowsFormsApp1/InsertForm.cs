@@ -188,7 +188,7 @@ namespace WindowsFormsApp1
                 command.CommandText += ") " + valuesCommand.CommandText + ")";
                 command.ExecuteNonQuery();
                 MessageBox.Show("Данные успешно вставлены!");
-                mainForm.RefreshData();
+               // mainForm.RefreshData();
                 Close();
             }
             catch (Exception ex)
