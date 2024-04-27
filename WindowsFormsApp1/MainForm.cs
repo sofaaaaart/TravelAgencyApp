@@ -17,7 +17,7 @@ namespace WindowsFormsApp1
         public MainForm(MySqlConnection existingConnection)
         {
             InitializeComponent();
-            connection = existingConnection;
+            connection = existingConnection ?? throw new ArgumentNullException(nameof(existingConnection), "Connection is null.");
             LoadTablesIntoComboBox();
             comboBoxTables.SelectedIndexChanged += comboBoxTables_SelectedIndexChanged;
             buttonFill.Click += buttonFill_Click;
@@ -26,7 +26,7 @@ namespace WindowsFormsApp1
             // Присваиваем нужные свойства ComboBox
             comboBoxForeignKeyValues.Name = "comboBoxForeignKeyValues";
             comboBoxForeignKeyValues.Location = new System.Drawing.Point(10, 10); // Укажите нужные координаты
-                                                                                  // Добавляем ComboBox на форму
+            comboBoxForeignKeyValues.SelectedIndexChanged += comboBoxForeignKeyValues_SelectedIndexChanged;       // Добавляем ComboBox на форму
             this.Controls.Add(comboBoxForeignKeyValues);
             this.FormClosing += MainForm_FormClosing;
         }
@@ -71,6 +71,53 @@ namespace WindowsFormsApp1
             return columnName.EndsWith("_id", StringComparison.OrdinalIgnoreCase) || columnName.Equals("reg_date", StringComparison.OrdinalIgnoreCase);
         }
 
+        public void comboBoxTables_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedTable = comboBoxTables.SelectedItem?.ToString();
+            if (!string.IsNullOrEmpty(selectedTable) && connection != null && connection.State == ConnectionState.Open)
+            {
+                try
+                {
+                    LoadData(selectedTable);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка при загрузке данных таблицы: " + ex.Message);
+                }
+            }
+        }
+        private string GetReferencedTableName(string mainTableName, string foreignKeyColumn, MySqlConnection connection)
+        {
+            string referencedTableName = null;
+            try
+            {
+                if (connection.State != ConnectionState.Open)
+                    connection.Open();
+
+                string query = $"SELECT REFERENCED_TABLE_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_NAME = '{mainTableName}' AND COLUMN_NAME = '{foreignKeyColumn}'";
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            referencedTableName = reader.GetString(0);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при получении имени связанной таблицы для столбца {foreignKeyColumn}: " + ex.Message);
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
+            }
+
+            return referencedTableName;
+        }
         public void comboBoxTables_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selectedTable = comboBoxTables.SelectedItem?.ToString();
@@ -122,25 +169,44 @@ namespace WindowsFormsApp1
             LoadForeignKeyValuesIntoComboBox(selectedTable, connection);
         }
 
+
         private void LoadForeignKeyValuesIntoComboBox(string selectedTable, MySqlConnection connection)
         {
-            List<string> foreignKeyColumns = GetForeignKeyColumns(selectedTable);
+            if (connection == null)
+            {
+                MessageBox.Show("Не удалось установить соединение с базой данных.");
+                return;
+            }
 
+            // Очищаем список значений ComboBox перед загрузкой новых значений
+            comboBoxForeignKeyValues.Items.Clear();
+
+            // Получаем список столбцов, являющихся внешними ключами для выбранной таблицы
+            List<string> foreignKeyColumns = GetForeignKeyColumns(selectedTable, connection);
+
+            // Для каждого внешнего ключа получаем уникальные значения из связанных таблиц
             foreach (string foreignKeyColumn in foreignKeyColumns)
             {
                 try
                 {
-                    if (connection.State != ConnectionState.Open)
-                        connection.Open();
+                    // Получаем имя связанной таблицы
+                    string referencedTableName = GetReferencedTableName(selectedTable, foreignKeyColumn, connection);
 
-                    string query = $"SELECT DISTINCT {foreignKeyColumn} FROM {selectedTable}";
-                    MySqlCommand command = new MySqlCommand(query, connection);
-
-                    using (MySqlDataReader reader = command.ExecuteReader())
+                    // Если есть связанная таблица
+                    if (!string.IsNullOrEmpty(referencedTableName))
                     {
-                        while (reader.Read())
+                        // Формируем запрос для выбора уникальных значений из связанной таблицы
+                        string query = $"SELECT DISTINCT {foreignKeyColumn} FROM {referencedTableName}";
+                        using (MySqlCommand command = new MySqlCommand(query, connection))
                         {
-                            comboBoxForeignKeyValues.Items.Add(reader[foreignKeyColumn].ToString());
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    // Добавляем уникальные значения в ComboBox
+                                    comboBoxForeignKeyValues.Items.Add(reader[foreignKeyColumn].ToString());
+                                }
+                            }
                         }
                     }
                 }
@@ -148,14 +214,8 @@ namespace WindowsFormsApp1
                 {
                     MessageBox.Show($"Ошибка при загрузке значений внешнего ключа {foreignKeyColumn}: " + ex.Message);
                 }
-                finally
-                {
-                    if (connection.State == ConnectionState.Open)
-                        connection.Close();
-                }
             }
         }
-
         private void buttonFill_Click(object sender, EventArgs e)
         {
             string selectedTable = comboBoxTables.SelectedItem?.ToString();
@@ -232,10 +292,12 @@ namespace WindowsFormsApp1
             string primaryKeyColumn = null;
             try
             {
+                if (connection.State != ConnectionState.Open)
+                    connection.Open();
+
                 string query = $"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_NAME = '{tableName}' AND CONSTRAINT_NAME = 'PRIMARY'";
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    connection.Open();
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
                         if (reader.Read())
@@ -258,16 +320,18 @@ namespace WindowsFormsApp1
             return primaryKeyColumn;
         }
 
-        private List<string> GetForeignKeyColumns(string tableName)
+        private List<string> GetForeignKeyColumns(string tableName, MySqlConnection connection)
         {
             List<string> foreignKeyColumns = new List<string>();
 
             try
             {
+                if (connection.State != ConnectionState.Open)
+                    connection.Open();
+
                 string query = $"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_NAME = '{tableName}' AND REFERENCED_TABLE_NAME IS NOT NULL";
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    connection.Open();
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -288,8 +352,7 @@ namespace WindowsFormsApp1
             }
 
             return foreignKeyColumns;
-        }
-
+        } 
         private void DeleteRecordFromDatabase(int id, string tableName)
         {
             try
@@ -298,7 +361,7 @@ namespace WindowsFormsApp1
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id", id);
-                    connection.Open();
+                    connection.Open(); 
                     command.ExecuteNonQuery();
                 }
             }
