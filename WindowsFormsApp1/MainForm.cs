@@ -3,6 +3,8 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace WindowsFormsApp1
 {
@@ -11,24 +13,132 @@ namespace WindowsFormsApp1
         private MySqlConnection connection;
         private DataTable currentTable;
 
-        public void RefreshData()
-        {
-            LoadTablesIntoComboBox(); // Перезагрузка данных в комбо-боксе
-            comboBoxTables_SelectedIndexChanged(null, null); // Вызов метода, обрабатывающего изменение выбора таблицы
-        }
         public MainForm(MySqlConnection existingConnection)
         {
             InitializeComponent();
             connection = existingConnection;
             LoadTablesIntoComboBox();
-            // Добавление обработчика события comboBoxTables_SelectedIndexChanged
             comboBoxTables.SelectedIndexChanged += comboBoxTables_SelectedIndexChanged;
-            // Добавление обработчика события buttonFill_Click
             buttonFill.Click += buttonFill_Click;
-            // Добавление обработчика события buttonDelete_Click
             buttonDelete.Click += buttonDelete_Click;
-            // Добавление обработчика события MainForm_FormClosing
             this.FormClosing += MainForm_FormClosing;
+
+            comboBoxTables.DropDownStyle = ComboBoxStyle.DropDownList;
+        }
+
+
+        public class ForeignKeyInfo
+        {
+            public string ColumnName { get; set; }
+            public string ReferencedTableName { get; set; }
+            public string ReferencedColumnName { get; set; }
+        }
+
+        private bool TableExists(string tableName)
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+
+                    DataTable schema = connection.GetSchema("Tables");
+                    foreach (DataRow row in schema.Rows)
+                    {
+                        if (string.Equals(row["TABLE_NAME"].ToString(), tableName, StringComparison.OrdinalIgnoreCase))
+                            return true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error checking table existence: " + ex.Message);
+                    MessageBox.Show("Ошибка при провeркe сущeствования таблицы: " + ex.Message);
+                }
+                finally
+                {
+                    if (connection.State == ConnectionState.Open)
+                        connection.Close();
+                }
+
+                return false;
+            }
+
+
+        public void RefreshDataGridViewData()
+        {
+            string selectedTable = comboBoxTables.SelectedItem?.ToString();
+            if (!string.IsNullOrEmpty(selectedTable) && connection != null)
+            {
+                try
+                {
+                    Console.WriteLine("Refreshing data for table: " + selectedTable);
+                    if (!TableExists(selectedTable))
+                    {
+                        throw new Exception($"Выбранная таблица '{selectedTable}' не существует.");
+                    }
+
+                    string query = $"SELECT * FROM `{selectedTable}`";
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection);
+                    currentTable = new DataTable();
+                    adapter.Fill(currentTable);
+
+                   
+                    // Скрытие столбца с именем "reg_date"
+                    if (dataGridView1.Columns.Contains("reg_date"))
+                    {
+                        dataGridView1.Columns["reg_date"].Visible = false;
+                    }
+
+                    dataGridView1.DataSource = currentTable;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error refreshing data: " + ex.Message);
+                    MessageBox.Show("Ошибка при обновлении данных таблицы: " + ex.Message);
+                }
+            }
+        }
+
+        public void LoadDataIntoDataGridView(string selectedTable)
+        {
+            // Проверка наличия выбранной таблицы и соединения с базой данных
+            if (!string.IsNullOrEmpty(selectedTable) && connection != null)
+            {
+                try
+                {
+                    string query = $"SELECT * FROM `{selectedTable}`";
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection);
+                    currentTable = new DataTable();
+                    adapter.Fill(currentTable);
+
+                    /* Удаление столбцов с окончанием "_id" и "reg_date"
+                    List<DataColumn> columnsToRemove = new List<DataColumn>();
+                    foreach (DataColumn column in currentTable.Columns)
+                    {
+                        if (column.ColumnName.EndsWith("_id", StringComparison.OrdinalIgnoreCase) || column.ColumnName.Equals("reg_date", StringComparison.OrdinalIgnoreCase))
+                        {
+                            columnsToRemove.Add(column);
+                        }
+                    }
+                    foreach (DataColumn column in columnsToRemove)
+                    {
+                        currentTable.Columns.Remove(column);
+                    }*/
+
+                    // Установка DataTable в качестве источника данных для DataGridView
+                    dataGridView1.DataSource = currentTable;
+
+                     //Скрытие столбца с именем "reg_date"
+                    if (dataGridView1.Columns.Contains("reg_date"))
+                    {
+                        dataGridView1.Columns["reg_date"].Visible = false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error loading data: " + ex.Message);
+                    MessageBox.Show("Ошибка при загрузке данных таблицы: " + ex.Message);
+                }
+            }
         }
 
         public void LoadTablesIntoComboBox()
@@ -42,18 +152,19 @@ namespace WindowsFormsApp1
 
                     DataTable tables = connection.GetSchema("Tables");
 
-                    // Очищаем список перед добавлением новых таблиц
                     comboBoxTables.Items.Clear();
 
                     foreach (DataRow row in tables.Rows)
                     {
                         string tableName = row["TABLE_NAME"].ToString();
                         comboBoxTables.Items.Add(tableName);
+                        Console.WriteLine("Добавлeна таблица в комбо-бокс: " + tableName);
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Ошибка при загрузке таблиц: " + ex.Message);
+                    Console.WriteLine("Error loading tables: " + ex.Message);
+                    MessageBox.Show("Ошибка при загрузкe таблиц: " + ex.Message);
                 }
                 finally
                 {
@@ -63,14 +174,8 @@ namespace WindowsFormsApp1
             }
             else
             {
-                MessageBox.Show("Не удалось установить соединение с базой данных.");
+                MessageBox.Show("Нe удалось установить соeдинeниe с базой данных.");
             }
-        }
-
-        private bool IsExcludedColumn(string columnName)
-        {
-            // Исключаем любые поля, содержащие в своем имени "_id" или "reg_date"
-            return columnName.EndsWith("_id", StringComparison.OrdinalIgnoreCase) || columnName.Equals("reg_date", StringComparison.OrdinalIgnoreCase);
         }
 
         public void comboBoxTables_SelectedIndexChanged(object sender, EventArgs e)
@@ -80,64 +185,123 @@ namespace WindowsFormsApp1
             {
                 try
                 {
-                    string query = "SELECT * FROM " + selectedTable;
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection);
-                    currentTable = new DataTable();
-                    adapter.Fill(currentTable);
-
-                    // Удаление исключаемых полей
-                    foreach (DataColumn column in currentTable.Columns.OfType<DataColumn>().ToArray())
-                    {
-                        if (IsExcludedColumn(column.ColumnName))
-                        {
-                            currentTable.Columns.Remove(column);
-                        }
-                        else if (column.DataType == typeof(DateTime) && column.ColumnName == "s_date")
-                        {
-                            // Преобразовать строку в DateTime используя явное указание формата даты
-                            foreach (DataRow dataRow in currentTable.Rows)
-                            {
-                                string dateString = dataRow["s_date"].ToString();
-                                DateTime dateValue;
-                                if (DateTime.TryParseExact(dateString, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dateValue))
-                                {
-                                    dataRow["s_date"] = dateValue;
-                                }
-                                else if (column.DataType == typeof(DateTime) && column.ColumnName == "s_date")
-                                {
-                                    // Пропускаем преобразование, если тип данных уже DateTime
-                                    continue;
-                                }
-                                else
-                                {
-                                    // Обработка неверного формата даты
-                                    // Например, установка значения по умолчанию или вывод сообщения об ошибке
-                                    dataRow["s_date"] = DBNull.Value; // или другая обработка ошибки
-                                }
-                            }
-                        }
-                    }
-
-                    dataGridView1.DataSource = currentTable;
+                    LoadDataIntoDataGridView(selectedTable);
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine("Error loading data: " + ex.Message);
                     MessageBox.Show("Ошибка при загрузке данных таблицы: " + ex.Message);
                 }
             }
         }
 
+        private int GetIdFromSelectedRow(DataGridViewRow row, string tableName)
+        {
+            int id = -1;
+            try
+            {
+                if (row != null)
+                {
+                    // Получаем значение первичного ключа из базы данных на основе выбранной строки
+                    id = GetPrimaryKeyValueFromDatabase(row, tableName);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error getting record identifier: " + ex.Message);
+                MessageBox.Show("Ошибка при определении идентификатора записи: " + ex.Message);
+            }
+            return id;
+        }
+
+        private int GetPrimaryKeyValueFromDatabase(DataGridViewRow row, string tableName)
+        {
+            int id = -1;
+            try
+            {
+                string primaryKeyColumn = GetPrimaryKeyColumn(tableName);
+                if (!string.IsNullOrEmpty(primaryKeyColumn))
+                {
+                    object primaryKeyValue = row.Cells[primaryKeyColumn].Value;
+                    if (primaryKeyValue != null)
+                    {
+                        string query = $"SELECT {primaryKeyColumn} FROM {tableName} WHERE {primaryKeyColumn} = @id";
+                        using (MySqlCommand command = new MySqlCommand(query, connection))
+                        {
+                            command.Parameters.AddWithValue("@id", primaryKeyValue);
+                            connection.Open();
+                            var result = command.ExecuteScalar();
+                            if (result != null)
+                            {
+                                id = Convert.ToInt32(result);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Primary key value in column '{primaryKeyColumn}' is null.");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show($"Primary key column for table '{tableName}' not found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error getting primary key value from database: " + ex.Message);
+                MessageBox.Show("Ошибка при получении значения первичного ключа из базы данных: " + ex.Message);
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
+            }
+            return id;
+        }
+
+        private string GetPrimaryKeyColumn(string tableName)
+        {
+            string primaryKeyColumn = null;
+            try
+            {
+                string query = $"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_NAME = '{tableName}' AND CONSTRAINT_NAME = 'PRIMARY'";
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    connection.Open();
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            primaryKeyColumn = reader.GetString(0);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error getting primary key column: " + ex.Message);
+                MessageBox.Show("Ошибка при получeнии столбца пeрвичного ключа: " + ex.Message);
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
+            }
+
+            return primaryKeyColumn;
+        }
         private void buttonFill_Click(object sender, EventArgs e)
         {
             string selectedTable = comboBoxTables.SelectedItem?.ToString();
             if (!string.IsNullOrEmpty(selectedTable))
             {
-                InsertForm insertForm = new InsertForm(selectedTable, connection, this); // Передача ссылки на MainForm
+                InsertForm insertForm = new InsertForm(selectedTable, connection, this);
                 insertForm.Show();
             }
             else
             {
-                MessageBox.Show("Выберите таблицу для вставки данных.");
+                MessageBox.Show("Выбeритe таблицу для вставки данных.");
             }
         }
 
@@ -158,98 +322,192 @@ namespace WindowsFormsApp1
                         }
                         else
                         {
-                            MessageBox.Show("Не удалось определить идентификатор записи.");
+                            MessageBox.Show("Нe удалось опрeдeлить идeнтификатор записи.");
                         }
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Выберите строку для удаления.");
+                    MessageBox.Show("Выбeритe строку для удалeния.");
                 }
             }
             else
             {
-                MessageBox.Show("Выберите таблицу для удаления.");
+                MessageBox.Show("Выбeритe таблицу для удалeния.");
             }
         }
-
-        private int GetIdFromSelectedRow(DataGridViewRow row, string tableName)
+        private void DeleteRecordFromDatabase(int id, string tableName)
         {
-            int id = -1;
             try
             {
-                // Получаем имя столбца первичного ключа
                 string primaryKeyColumn = GetPrimaryKeyColumn(tableName);
-
-                // Получаем значение из ячейки столбца первичного ключа
-                id = Convert.ToInt32(row.Cells[primaryKeyColumn].Value);
+                string query = $"DELETE FROM {tableName} WHERE {primaryKeyColumn} = @id";
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@id", id);
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка при определении идентификатора записи: " + ex.Message);
+                Console.WriteLine("Error deleting record from database: " + ex.Message);
+                MessageBox.Show("Ошибка при удалении записи из базы данных: " + ex.Message);
             }
-            return id;
+            finally
+            {
+                connection.Close();
+            }
         }
 
-        private string GetPrimaryKeyColumn(string tableName)
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            string primaryKeyColumn = null;
+            Application.Exit();
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void buttonFill_Enter(object sender, EventArgs e)
+        {
+            buttonFill.Font = new Font(buttonFill.Font, FontStyle.Underline);
+        }
+
+        private void buttonFill_Leave(object sender, EventArgs e)
+        {
+            buttonFill.Font = new Font(buttonFill.Font, FontStyle.Regular);
+        }
+
+        private void buttonDelete_Enter(object sender, EventArgs e)
+        {
+            buttonDelete.Font = new Font(buttonDelete.Font, FontStyle.Underline);
+        }
+
+        private void buttonDelete_Leave(object sender, EventArgs e)
+        {
+            buttonDelete.Font = new Font(buttonDelete.Font, FontStyle.Regular);
+        }
+
+
+
+
+        /*public void LoadDataIntoDataGridView(string selectedTable)
+        {
+            // Проверка наличия выбранной таблицы и соединения с базой данных
+            if (!string.IsNullOrEmpty(selectedTable) && connection != null)
+            {
+                try
+                {
+                    string query = $"SELECT * FROM `{selectedTable}`";
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection);
+                    currentTable = new DataTable();
+                    adapter.Fill(currentTable);
+
+                    // Проходим по столбцам DataGridView и заменяем значения связанных полей
+                    foreach (DataGridViewColumn column in dataGridView1.Columns)
+                    {
+                        if (IsForeignKeyColumn(selectedTable, column.Name))
+                        {
+                            string referencedValueColumn = displayColumns[foreignKeyMappings[selectedTable][column.Name]];
+                            foreach (DataGridViewRow row in dataGridView1.Rows)
+                            {
+                                object foreignKeyValue = row.Cells[column.Name].Value;
+                                string foreignKeyValueString = foreignKeyValue.ToString();
+                                string referencedValue = GetReferencedValue(selectedTable, column.Name, foreignKeyValueString);
+                                row.Cells[column.Name].Value = referencedValue;
+                            }
+                        }
+                    }
+
+                    // Установка DataTable в качестве источника данных для DataGridView
+                    dataGridView1.DataSource = currentTable;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error loading data: " + ex.Message);
+                    MessageBox.Show("Ошибка при загрузке данных таблицы: " + ex.Message);
+                }
+            }
+        }
+
+        private bool IsExcludedColumn(string columnName)
+        {
+            return columnName.EndsWith("_id", StringComparison.OrdinalIgnoreCase) || columnName.Equals("reg_date", StringComparison.OrdinalIgnoreCase);
+        }
+
+
+        private Dictionary<string, string> displayColumns = new Dictionary<string, string>()
+        {
+            { "clients", "c_fullname" },
+            { "education", "e_specialty" },
+            { "stufff", "s_fullname" },
+            { "touroperators", "t_name" },
+            { "status", "status_name" },
+            { "types", "et_name" },
+            // Добавьте другие таблицы и соответствующие столбцы для отображения
+        };
+
+        private Dictionary<string, Dictionary<string, string>> foreignKeyMappings = new Dictionary<string, Dictionary<string, string>>()
+        {
+            { "clients", new Dictionary<string, string>() { { "c_education", "education" } } },
+            { "stufff", new Dictionary<string, string>() { { "s_feducation", "education" }, { "s_seducation", "education" } } },
+            { "requests", new Dictionary<string, string>() { { "r_client", "clients" }, { "r_stuff", "stufff" }, { "r_tourop", "touroperators" }, { "r_status", "status" } } },
+            { "process", new Dictionary<string, string>() { { "p_staff", "stufff" }, { "p_req", "requests" }, { "p_status", "status" } } },
+            { "education", new Dictionary<string, string>() { { "e_type", "types" } } } // Изменено на "types"
+        };
+
+        // Определение метода для преобразования типов данных в DataTable
+
+
+        private bool IsForeignKeyColumn(string tableName, string columnName)
+        {
+            if (foreignKeyMappings.ContainsKey(tableName))
+            {
+                foreach (var mapping in foreignKeyMappings[tableName])
+                {
+                    if (mapping.Key.Equals(columnName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        private string GetReferencedValue(string tableName, string foreignKeyColumn, string foreignKeyValue)
+        {
+            string referencedValue = null;
             try
             {
-                string query = $"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_NAME = '{tableName}' AND CONSTRAINT_NAME = 'PRIMARY'";
-                // Corrected query to specifically target primary key constraint
-
+                string referencedTableName = foreignKeyMappings[tableName][foreignKeyColumn];
+                string displayColumn = displayColumns[referencedTableName];
+                string query = $"SELECT {displayColumn} FROM {referencedTableName} WHERE {GetPrimaryKeyColumn(referencedTableName)} = @id";
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@id", foreignKeyValue);
                     connection.Open();
-                    using (MySqlDataReader reader = command.ExecuteReader())
+                    object result = command.ExecuteScalar();
+                    if (result != DBNull.Value)
                     {
-                        if (reader.Read())
-                        {
-                            primaryKeyColumn = reader.GetString(0);
-                        }
+                        referencedValue = result.ToString();
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка при получении столбца первичного ключа: " + ex.Message);
+                Console.WriteLine($"Error getting referenced value for {tableName}.{foreignKeyColumn}: " + ex.Message);
             }
             finally
             {
-                // Закрытие соединения
                 if (connection.State == ConnectionState.Open)
                     connection.Close();
             }
+            return referencedValue;
+        } */
 
-            return primaryKeyColumn;
-        }
-
-        private void DeleteRecordFromDatabase(int id, string tableName)
-{
-    try
-    {
-        string query = $"DELETE FROM {tableName} WHERE {GetPrimaryKeyColumn(tableName)} = @id";
-        using (MySqlCommand command = new MySqlCommand(query, connection))
-        {
-            command.Parameters.AddWithValue("@id", id);
-            connection.Open();
-            command.ExecuteNonQuery();
-        }
     }
-    catch (Exception ex)
-    {
-        MessageBox.Show("Ошибка при удалении записи из базы данных: " + ex.Message);
-    }
-    finally
-    {
-        connection.Close();
-    }
-}
-
-private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-{
-    Application.Exit();
-}
-    }
+       
 }

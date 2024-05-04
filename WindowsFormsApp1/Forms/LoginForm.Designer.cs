@@ -58,14 +58,14 @@ namespace WindowsFormsApp1
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(434, 561);
+            this.panel1.Size = new System.Drawing.Size(434, 281);
             this.panel1.TabIndex = 0;
             // 
             // registerLabel
             // 
             this.registerLabel.AutoSize = true;
             this.registerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.registerLabel.Location = new System.Drawing.Point(171, 318);
+            this.registerLabel.Location = new System.Drawing.Point(170, 250);
             this.registerLabel.Name = "registerLabel";
             this.registerLabel.Size = new System.Drawing.Size(106, 20);
             this.registerLabel.TabIndex = 4;
@@ -77,7 +77,7 @@ namespace WindowsFormsApp1
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(98, 178);
+            this.label5.Location = new System.Drawing.Point(98, 152);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(45, 13);
             this.label5.TabIndex = 12;
@@ -86,7 +86,7 @@ namespace WindowsFormsApp1
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(98, 90);
+            this.label4.Location = new System.Drawing.Point(98, 103);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(38, 13);
             this.label4.TabIndex = 11;
@@ -98,7 +98,7 @@ namespace WindowsFormsApp1
             this.buttonLogin.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
             this.buttonLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonLogin.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonLogin.Location = new System.Drawing.Point(97, 285);
+            this.buttonLogin.Location = new System.Drawing.Point(97, 217);
             this.buttonLogin.Name = "buttonLogin";
             this.buttonLogin.Size = new System.Drawing.Size(251, 30);
             this.buttonLogin.TabIndex = 5;
@@ -109,7 +109,7 @@ namespace WindowsFormsApp1
             // passfield
             // 
             this.passfield.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.passfield.Location = new System.Drawing.Point(97, 194);
+            this.passfield.Location = new System.Drawing.Point(97, 168);
             this.passfield.Name = "passfield";
             this.passfield.Size = new System.Drawing.Size(255, 29);
             this.passfield.TabIndex = 4;
@@ -118,10 +118,10 @@ namespace WindowsFormsApp1
             // loginfield
             // 
             this.loginfield.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.loginfield.Location = new System.Drawing.Point(97, 106);
+            this.loginfield.Location = new System.Drawing.Point(97, 119);
             this.loginfield.Multiline = true;
             this.loginfield.Name = "loginfield";
-            this.loginfield.Size = new System.Drawing.Size(255, 64);
+            this.loginfield.Size = new System.Drawing.Size(255, 30);
             this.loginfield.TabIndex = 2;
             // 
             // panel2
@@ -160,7 +160,7 @@ namespace WindowsFormsApp1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(434, 561);
+            this.ClientSize = new System.Drawing.Size(434, 281);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

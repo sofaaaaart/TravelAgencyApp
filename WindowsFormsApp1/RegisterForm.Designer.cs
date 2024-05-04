@@ -33,7 +33,6 @@ namespace WindowsFormsApp1
             this.panel1 = new System.Windows.Forms.Panel();
             this.back = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.datefield = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -47,6 +46,7 @@ namespace WindowsFormsApp1
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
+            this.datefield = new System.Windows.Forms.MaskedTextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -56,9 +56,9 @@ namespace WindowsFormsApp1
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(226)))), ((int)(((byte)(232)))));
+            this.panel1.Controls.Add(this.datefield);
             this.panel1.Controls.Add(this.back);
             this.panel1.Controls.Add(this.label6);
-            this.panel1.Controls.Add(this.datefield);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label3);
@@ -74,14 +74,14 @@ namespace WindowsFormsApp1
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(434, 561);
+            this.panel1.Size = new System.Drawing.Size(434, 541);
             this.panel1.TabIndex = 1;
             // 
             // back
             // 
             this.back.AutoSize = true;
             this.back.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.back.Location = new System.Drawing.Point(199, 499);
+            this.back.Location = new System.Drawing.Point(199, 485);
             this.back.Name = "back";
             this.back.Size = new System.Drawing.Size(57, 21);
             this.back.TabIndex = 14;
@@ -94,24 +94,16 @@ namespace WindowsFormsApp1
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(107, 349);
+            this.label6.Location = new System.Drawing.Point(107, 319);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(86, 13);
             this.label6.TabIndex = 13;
             this.label6.Text = "Дата рождения";
             // 
-            // datefield
-            // 
-            this.datefield.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.datefield.Location = new System.Drawing.Point(101, 365);
-            this.datefield.Name = "datefield";
-            this.datefield.Size = new System.Drawing.Size(255, 29);
-            this.datefield.TabIndex = 12;
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(107, 397);
+            this.label5.Location = new System.Drawing.Point(107, 376);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(45, 13);
             this.label5.TabIndex = 11;
@@ -120,7 +112,7 @@ namespace WindowsFormsApp1
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(107, 266);
+            this.label4.Location = new System.Drawing.Point(107, 261);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(38, 13);
             this.label4.TabIndex = 10;
@@ -129,7 +121,7 @@ namespace WindowsFormsApp1
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(107, 178);
+            this.label3.Location = new System.Drawing.Point(107, 189);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(65, 13);
             this.label3.TabIndex = 9;
@@ -138,7 +130,7 @@ namespace WindowsFormsApp1
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(107, 90);
+            this.label2.Location = new System.Drawing.Point(107, 109);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(34, 13);
             this.label2.TabIndex = 8;
@@ -147,19 +139,19 @@ namespace WindowsFormsApp1
             // fullnamefield
             // 
             this.fullnamefield.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.fullnamefield.Location = new System.Drawing.Point(101, 106);
+            this.fullnamefield.Location = new System.Drawing.Point(101, 125);
             this.fullnamefield.Multiline = true;
             this.fullnamefield.Name = "fullnamefield";
-            this.fullnamefield.Size = new System.Drawing.Size(255, 64);
+            this.fullnamefield.Size = new System.Drawing.Size(255, 50);
             this.fullnamefield.TabIndex = 7;
             // 
             // postfield
             // 
             this.postfield.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.postfield.Location = new System.Drawing.Point(101, 194);
+            this.postfield.Location = new System.Drawing.Point(101, 205);
             this.postfield.Multiline = true;
             this.postfield.Name = "postfield";
-            this.postfield.Size = new System.Drawing.Size(255, 64);
+            this.postfield.Size = new System.Drawing.Size(255, 50);
             this.postfield.TabIndex = 6;
             // 
             // buttonLogin
@@ -168,7 +160,7 @@ namespace WindowsFormsApp1
             this.buttonLogin.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
             this.buttonLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonLogin.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonLogin.Location = new System.Drawing.Point(101, 466);
+            this.buttonLogin.Location = new System.Drawing.Point(101, 452);
             this.buttonLogin.Name = "buttonLogin";
             this.buttonLogin.Size = new System.Drawing.Size(255, 30);
             this.buttonLogin.TabIndex = 5;
@@ -179,9 +171,10 @@ namespace WindowsFormsApp1
             // passfield
             // 
             this.passfield.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.passfield.Location = new System.Drawing.Point(101, 413);
+            this.passfield.Location = new System.Drawing.Point(101, 392);
+            this.passfield.Multiline = true;
             this.passfield.Name = "passfield";
-            this.passfield.Size = new System.Drawing.Size(255, 29);
+            this.passfield.Size = new System.Drawing.Size(255, 30);
             this.passfield.TabIndex = 4;
             this.passfield.UseSystemPasswordChar = true;
             // 
@@ -189,9 +182,9 @@ namespace WindowsFormsApp1
             // 
             this.pictureBox2.Image = global::WindowsFormsApp1.Properties.Resources._10716887_summer_palm_tree_tropical_beach_coconut_icon;
             this.pictureBox2.InitialImage = null;
-            this.pictureBox2.Location = new System.Drawing.Point(27, 194);
+            this.pictureBox2.Location = new System.Drawing.Point(45, 205);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox2.Size = new System.Drawing.Size(50, 50);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 3;
             this.pictureBox2.TabStop = false;
@@ -199,19 +192,19 @@ namespace WindowsFormsApp1
             // loginfield
             // 
             this.loginfield.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.loginfield.Location = new System.Drawing.Point(101, 282);
+            this.loginfield.Location = new System.Drawing.Point(101, 277);
             this.loginfield.Multiline = true;
             this.loginfield.Name = "loginfield";
-            this.loginfield.Size = new System.Drawing.Size(255, 64);
+            this.loginfield.Size = new System.Drawing.Size(255, 30);
             this.loginfield.TabIndex = 2;
             // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::WindowsFormsApp1.Properties.Resources._10716887_summer_palm_tree_tropical_beach_coconut_icon;
             this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(27, 106);
+            this.pictureBox1.Location = new System.Drawing.Point(45, 125);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox1.Size = new System.Drawing.Size(50, 50);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
@@ -236,11 +229,20 @@ namespace WindowsFormsApp1
             this.label1.TabIndex = 0;
             this.label1.Text = "Регистрация";
             // 
+            // datefield
+            // 
+            this.datefield.Font = new System.Drawing.Font("Times New Roman", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.datefield.Location = new System.Drawing.Point(101, 335);
+            this.datefield.Mask = "0000-00-00";
+            this.datefield.Name = "datefield";
+            this.datefield.Size = new System.Drawing.Size(255, 30);
+            this.datefield.TabIndex = 2;
+            // 
             // RegisterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(434, 561);
+            this.ClientSize = new System.Drawing.Size(434, 541);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RegisterForm";
@@ -273,7 +275,7 @@ namespace WindowsFormsApp1
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox datefield;
         private System.Windows.Forms.Label back;
+        private System.Windows.Forms.MaskedTextBox datefield;
     }
 }

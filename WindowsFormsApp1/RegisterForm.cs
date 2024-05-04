@@ -15,8 +15,9 @@ namespace WindowsFormsApp1
         {
             InitializeComponent();
             connection = DatabaseInitializer.InitializeDatabase();
-        }
 
+        }
+        
         private void buttonLogin_Click(object sender, EventArgs e)
         {
             if (fullnamefield.Text == "" || datefield.Text == "" || postfield.Text == "" || loginfield.Text == "" || passfield.Text == "")
@@ -66,12 +67,12 @@ namespace WindowsFormsApp1
 
         private void back_MouseEnter(object sender, EventArgs e)
         {
-            back.Font = new System.Drawing.Font(back.Font, FontStyle.Underline);
+            back.Font = new Font(back.Font, FontStyle.Underline);
         }
 
         private void back_MouseLeave(object sender, EventArgs e)
         {
-            back.Font = new System.Drawing.Font(back.Font, FontStyle.Regular);
+            back.Font = new Font(back.Font, FontStyle.Regular);
         }
         private void back_Click(object sender, EventArgs e)
         {
@@ -85,8 +86,5 @@ namespace WindowsFormsApp1
         {
             Application.Exit();
         }
-
-
-        
     }
 }

@@ -14,7 +14,6 @@ CREATE TABLE clients (
     c_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     c_fullname VARCHAR(50) NOT NULL,
     c_date DATE NOT NULL,
-    c_gender CHAR(1) NOT NULL,
     c_passport VARCHAR(50) NOT NULL,
     c_phone VARCHAR(30) NOT NULL,
     c_email VARCHAR(30),
@@ -31,8 +30,8 @@ CREATE TABLE types (
 
 CREATE TABLE education (
     e_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    e_type INT(6) UNSIGNED,
     e_specialty VARCHAR(40) NOT NULL,
+	e_type INT(6) UNSIGNED,
     e_diplom VARCHAR(15) NOT NULL,
     e_year INT(4) NOT NULL,
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -43,7 +42,6 @@ CREATE TABLE stufff (
     s_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     s_fullname VARCHAR(50) NOT NULL,
     s_date DATE NOT NULL,
-    s_gender CHAR(1) NOT NULL,
     s_passport VARCHAR(50) NOT NULL,
     s_inn CHAR(12) NOT NULL,
     s_snils CHAR(14) NOT NULL,
@@ -99,3 +97,6 @@ CREATE TABLE process (
     FOREIGN KEY (p_req) REFERENCES requests (r_id) ON DELETE CASCADE ON UPDATE RESTRICT,
     FOREIGN KEY (p_status) REFERENCES status (status_id) ON DELETE CASCADE ON UPDATE RESTRICT
 );
+
+
+

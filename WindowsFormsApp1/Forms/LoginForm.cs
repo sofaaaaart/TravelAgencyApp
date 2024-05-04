@@ -16,7 +16,7 @@ namespace WindowsFormsApp1
         {
             InitializeComponent();
             this.passfield.AutoSize = false;
-            this.passfield.Size = new Size(this.passfield.Size.Width, 64);
+            this.passfield.Size = new Size(this.passfield.Size.Width, 30);
             InitializeDatabase();
         }
 
@@ -39,35 +39,36 @@ namespace WindowsFormsApp1
                 DataTable table = new DataTable();
                 MySqlDataAdapter adapter = new MySqlDataAdapter();
 
-                MySqlCommand command = new MySqlCommand("SELECT s_login, s_password FROM stufff WHERE s_login = @sl AND s_password = @sp", connection);
+                MySqlCommand command = new MySqlCommand("SELECT s_login, s_password FROM stufff WHERE s_login = @sl", connection);
                 command.Parameters.Add("@sl", MySqlDbType.VarChar).Value = loginUser;
-                command.Parameters.Add("@sp", MySqlDbType.VarChar).Value = passUser;
                 adapter.SelectCommand = command;
 
                 try
                 {
                     adapter.Fill(table);
-                    // Проверка, если такого пользователя в таблице нет
-                    MySqlCommand checkCommand = new MySqlCommand("SELECT COUNT(*) FROM stufff WHERE s_login = @sl", connection);
-                    checkCommand.Parameters.Add("@sl", MySqlDbType.VarChar).Value = loginUser;
-                    int userCount = Convert.ToInt32(checkCommand.ExecuteScalar());
 
-                    if (userCount == 0)
+                    if (table.Rows.Count > 0)
                     {
-                        MessageBox.Show("Пользователь с таким логином не существует.");
-                    }
-                    else
-                    {
-                        if (table.Rows.Count > 0)
+                        // Пользователь с таким логином существует в базе данных
+                        // Теперь проверим совпадение паролей
+                        string passwordFromDB = table.Rows[0]["s_password"].ToString();
+                        if (passwordFromDB == passUser)
                         {
+                            // Пароль совпадает, открываем MainForm
                             this.Hide();
                             MainForm mainForm = new MainForm(connection);
                             mainForm.Show();
                         }
                         else
                         {
-                            MessageBox.Show("Неверный логин или пароль.");
+                            // Пароль не совпадает
+                            MessageBox.Show("Неверный пароль");
                         }
+                    }
+                    else
+                    {
+                        // Пользователя с таким логином нет в базе данных
+                        MessageBox.Show("Пользователь с таким логином не существует");
                     }
                 }
                 catch (MySqlConversionException ex)
@@ -77,8 +78,7 @@ namespace WindowsFormsApp1
                 catch (Exception ex)
                 {
                     MessageBox.Show("Произошла ошибка: " + ex.Message);
-                } 
-            
+                }
             }
             else
             {
