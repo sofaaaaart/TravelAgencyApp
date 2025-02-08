@@ -1,513 +1,681 @@
 ﻿using System;
 using System.Data;
-using System.Linq;
-using System.Windows.Forms;
-using MySql.Data.MySqlClient;
-using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms;
+using Guna.UI2.WinForms;
+using System.Data.SqlClient;
+using System.IO;
+using LiveCharts;
+using LiveCharts.Wpf;
+using System.Collections.Generic;
+using WindowsFormsApp1.Properties;
+using WindowsFormsApp1;
 
-namespace WindowsFormsApp1
+namespace UniversalCardApp
 {
     public partial class MainForm : Form
     {
-        private MySqlConnection connection;
-        private DataTable currentTable;
+        private readonly SqlConnection connection;
 
-        public MainForm(MySqlConnection existingConnection)
+        // Поля для изображений
+        private Image normalHideImage;
+        private Image hoverHideImage;
+        private Image normalCloseImage;
+        private Image hoverCloseImage;
+
+        public MainForm(SqlConnection existingConnection)
         {
-            InitializeComponent();
+            InitializeComponent(); 
+
             connection = existingConnection;
-            LoadTablesIntoComboBox();
-            comboBoxTables.SelectedIndexChanged += comboBoxTables_SelectedIndexChanged;
-            buttonFill.Click += buttonFill_Click;
-            buttonDelete.Click += buttonDelete_Click;
-            this.FormClosing += MainForm_FormClosing;
-
-            comboBoxTables.DropDownStyle = ComboBoxStyle.DropDownList;
+            InitializeImages();
+            LoadDataAndCreateCards(cardsPanel);
+            LoadUserInfo();
+            LoadChartData();
+            UpdateRequestLabel();
+            LoadStatusLabels();
         }
 
-
-        public class ForeignKeyInfo
+        private void InitializeImages()
         {
-            public string ColumnName { get; set; }
-            public string ReferencedTableName { get; set; }
-            public string ReferencedColumnName { get; set; }
-        }
+            // Установите базовый путь
+            string basePath = AppDomain.CurrentDomain.BaseDirectory; // Путь к исполняемому файлу
+            string imagePath = Path.Combine(basePath, "img"); // Путь к папке "img"
 
-        private bool TableExists(string tableName)
-            {
-                try
-                {
-                    if (connection.State != ConnectionState.Open)
-                        connection.Open();
-
-                    DataTable schema = connection.GetSchema("Tables");
-                    foreach (DataRow row in schema.Rows)
-                    {
-                        if (string.Equals(row["TABLE_NAME"].ToString(), tableName, StringComparison.OrdinalIgnoreCase))
-                            return true;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Error checking table existence: " + ex.Message);
-                    MessageBox.Show("Ошибка при провeркe сущeствования таблицы: " + ex.Message);
-                }
-                finally
-                {
-                    if (connection.State == ConnectionState.Open)
-                        connection.Close();
-                }
-
-                return false;
-            }
-
-
-        public void RefreshDataGridViewData()
-        {
-            string selectedTable = comboBoxTables.SelectedItem?.ToString();
-            if (!string.IsNullOrEmpty(selectedTable) && connection != null)
-            {
-                try
-                {
-                    Console.WriteLine("Refreshing data for table: " + selectedTable);
-                    if (!TableExists(selectedTable))
-                    {
-                        throw new Exception($"Выбранная таблица '{selectedTable}' не существует.");
-                    }
-
-                    string query = $"SELECT * FROM `{selectedTable}`";
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection);
-                    currentTable = new DataTable();
-                    adapter.Fill(currentTable);
-
-                   
-                    // Скрытие столбца с именем "reg_date"
-                    if (dataGridView1.Columns.Contains("reg_date"))
-                    {
-                        dataGridView1.Columns["reg_date"].Visible = false;
-                    }
-
-                    dataGridView1.DataSource = currentTable;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Error refreshing data: " + ex.Message);
-                    MessageBox.Show("Ошибка при обновлении данных таблицы: " + ex.Message);
-                }
-            }
-        }
-
-        public void LoadDataIntoDataGridView(string selectedTable)
-        {
-            // Проверка наличия выбранной таблицы и соединения с базой данных
-            if (!string.IsNullOrEmpty(selectedTable) && connection != null)
-            {
-                try
-                {
-                    string query = $"SELECT * FROM `{selectedTable}`";
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection);
-                    currentTable = new DataTable();
-                    adapter.Fill(currentTable);
-
-                    /* Удаление столбцов с окончанием "_id" и "reg_date"
-                    List<DataColumn> columnsToRemove = new List<DataColumn>();
-                    foreach (DataColumn column in currentTable.Columns)
-                    {
-                        if (column.ColumnName.EndsWith("_id", StringComparison.OrdinalIgnoreCase) || column.ColumnName.Equals("reg_date", StringComparison.OrdinalIgnoreCase))
-                        {
-                            columnsToRemove.Add(column);
-                        }
-                    }
-                    foreach (DataColumn column in columnsToRemove)
-                    {
-                        currentTable.Columns.Remove(column);
-                    }*/
-
-                    // Установка DataTable в качестве источника данных для DataGridView
-                    dataGridView1.DataSource = currentTable;
-
-                     //Скрытие столбца с именем "reg_date"
-                    if (dataGridView1.Columns.Contains("reg_date"))
-                    {
-                        dataGridView1.Columns["reg_date"].Visible = false;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Error loading data: " + ex.Message);
-                    MessageBox.Show("Ошибка при загрузке данных таблицы: " + ex.Message);
-                }
-            }
-        }
-
-        public void LoadTablesIntoComboBox()
-        {
-            if (connection != null)
-            {
-                try
-                {
-                    if (connection.State != ConnectionState.Open)
-                        connection.Open();
-
-                    DataTable tables = connection.GetSchema("Tables");
-
-                    comboBoxTables.Items.Clear();
-
-                    foreach (DataRow row in tables.Rows)
-                    {
-                        string tableName = row["TABLE_NAME"].ToString();
-                        comboBoxTables.Items.Add(tableName);
-                        Console.WriteLine("Добавлeна таблица в комбо-бокс: " + tableName);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Error loading tables: " + ex.Message);
-                    MessageBox.Show("Ошибка при загрузкe таблиц: " + ex.Message);
-                }
-                finally
-                {
-                    if (connection.State == ConnectionState.Open)
-                        connection.Close();
-                }
-            }
-            else
-            {
-                MessageBox.Show("Нe удалось установить соeдинeниe с базой данных.");
-            }
-        }
-
-        public void comboBoxTables_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string selectedTable = comboBoxTables.SelectedItem?.ToString();
-            if (!string.IsNullOrEmpty(selectedTable) && connection != null)
-            {
-                try
-                {
-                    LoadDataIntoDataGridView(selectedTable);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Error loading data: " + ex.Message);
-                    MessageBox.Show("Ошибка при загрузке данных таблицы: " + ex.Message);
-                }
-            }
-        }
-
-        private int GetIdFromSelectedRow(DataGridViewRow row, string tableName)
-        {
-            int id = -1;
             try
             {
-                if (row != null)
+                // Загрузите изображения для HideButton
+                normalHideImage = Image.FromFile(Path.Combine(imagePath, "ButtonHide.png"));
+                hoverHideImage = Image.FromFile(Path.Combine(imagePath, "ButtonHide1.png"));
+
+                // Загрузите изображения для CloseButton
+                normalCloseImage = Image.FromFile(Path.Combine(imagePath, "ButtonClose.png"));
+                hoverCloseImage = Image.FromFile(Path.Combine(imagePath, "ButtonClose1.png"));
+            }
+            catch (FileNotFoundException ex)
+            {
+                MessageBox.Show($"Ошибка: изображение не найдено. {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка загрузки изображения: {ex.Message}");
+            }
+        }
+
+        private void UpdateRequestLabel()
+        {
+            try
+            {
+                string query = "SELECT COUNT(*) FROM requests";
+                SqlCommand command = new SqlCommand(query, connection);
+
+                connection.Open();
+                int requestCount = Convert.ToInt32(command.ExecuteScalar());
+                connection.Close();
+
+                requestLabel.Text = $"{requestCount}";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка загрузки данных: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadStatusLabels()
+        {
+            try
+            {
+                if (connection.State != ConnectionState.Open)
+                    connection.Open();
+
+                string query = "SELECT status_name FROM status"; // Загружаем статусы
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    // Получаем значение первичного ключа из базы данных на основе выбранной строки
-                    id = GetPrimaryKeyValueFromDatabase(row, tableName);
+                    List<string> statusNames = new List<string>();
+
+                    while (reader.Read())
+                    {
+                        statusNames.Add(reader["status_name"].ToString());
+                    }
+
+                    Guna2HtmlLabel[] labels =
+                    {
+                statusLabel1, statusLabel2, statusLabel3,
+                statusLabel4, statusLabel5, statusLabel6
+            };
+
+                    for (int i = 0; i < labels.Length; i++)
+                    {
+                        if (i < statusNames.Count)
+                            labels[i].Text = statusNames[i];
+                        else
+                            labels[i].Text = "-"; // Если статусов меньше 6, заполняем дефолтным значением
+                    }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error getting record identifier: " + ex.Message);
-                MessageBox.Show("Ошибка при определении идентификатора записи: " + ex.Message);
-            }
-            return id;
-        }
-
-        private int GetPrimaryKeyValueFromDatabase(DataGridViewRow row, string tableName)
-        {
-            int id = -1;
-            try
-            {
-                string primaryKeyColumn = GetPrimaryKeyColumn(tableName);
-                if (!string.IsNullOrEmpty(primaryKeyColumn))
-                {
-                    object primaryKeyValue = row.Cells[primaryKeyColumn].Value;
-                    if (primaryKeyValue != null)
-                    {
-                        string query = $"SELECT {primaryKeyColumn} FROM {tableName} WHERE {primaryKeyColumn} = @id";
-                        using (MySqlCommand command = new MySqlCommand(query, connection))
-                        {
-                            command.Parameters.AddWithValue("@id", primaryKeyValue);
-                            connection.Open();
-                            var result = command.ExecuteScalar();
-                            if (result != null)
-                            {
-                                id = Convert.ToInt32(result);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show($"Primary key value in column '{primaryKeyColumn}' is null.");
-                    }
-                }
-                else
-                {
-                    MessageBox.Show($"Primary key column for table '{tableName}' not found.");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error getting primary key value from database: " + ex.Message);
-                MessageBox.Show("Ошибка при получении значения первичного ключа из базы данных: " + ex.Message);
+                MessageBox.Show("Ошибка загрузки статусов: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
                 if (connection.State == ConnectionState.Open)
                     connection.Close();
             }
-            return id;
         }
 
-        private string GetPrimaryKeyColumn(string tableName)
+        private void LoadChartData()
         {
-            string primaryKeyColumn = null;
             try
             {
-                string query = $"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_NAME = '{tableName}' AND CONSTRAINT_NAME = 'PRIMARY'";
-                using (MySqlCommand command = new MySqlCommand(query, connection))
-                {
+                if (connection.State != ConnectionState.Open)
                     connection.Open();
-                    using (MySqlDataReader reader = command.ExecuteReader())
+
+                string query = "SELECT r_status, COUNT(*) AS count FROM requests GROUP BY r_status";
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    var pieSeries = new SeriesCollection();
+                    int totalCount = 0;
+                    List<(string status, int count)> data = new List<(string, int)>();
+
+                    while (reader.Read())
+                    {
+                        string status = reader["r_status"].ToString();
+                        int count = Convert.ToInt32(reader["count"]);
+                        data.Add((status, count));
+                        totalCount += count;
+                    }
+
+                    foreach (var (status, count) in data)
+                    {
+                        Color drawingColor = GetStatusColor(status);
+                        var brush = new System.Windows.Media.SolidColorBrush(
+                            System.Windows.Media.Color.FromRgb(drawingColor.R, drawingColor.G, drawingColor.B));
+
+                        var pieItem = new PieSeries
+                        {
+                            Title = status,
+                            Values = new ChartValues<int> { count },
+                            Fill = brush,
+                            StrokeThickness = 0
+                        };
+
+                        pieSeries.Add(pieItem);
+                    }
+
+                    pieChart.Series = pieSeries;
+                    pieChart.DataTooltip = null;
+                    pieChart.DisableAnimations = true;
+                    pieChart.InnerRadius = 68;
+                }
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
+            }
+        }
+        private void LoadUserInfo()
+        {
+            try
+            {
+                string sessionToken = File.ReadAllText("session.txt").Trim();
+
+                if (string.IsNullOrEmpty(sessionToken))
+                {
+                    MessageBox.Show("Ошибка: токен сессии не найден.");
+                    return;
+                }
+
+                if (connection.State != ConnectionState.Open)
+                    connection.Open();
+
+                string query1 = "SELECT user_id FROM user_sessions WHERE token = @token AND expires_at > GETDATE()";
+                int userId = -1;
+
+                using (SqlCommand cmd = new SqlCommand(query1, connection))
+                {
+                    cmd.Parameters.AddWithValue("@token", sessionToken);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         if (reader.Read())
                         {
-                            primaryKeyColumn = reader.GetString(0);
+                            userId = Convert.ToInt32(reader["user_id"]);
+                        }
+                    }
+                }
+
+                if (userId == -1)
+                {
+                    MessageBox.Show("Ошибка: сессия недействительна или истекла.");
+                    return;
+                }
+
+                string query2 = "SELECT s_name, s_lastName FROM stufff WHERE s_id = @userId";
+                using (SqlCommand cmd = new SqlCommand(query2, connection))
+                {
+                    cmd.Parameters.AddWithValue("@userId", userId);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            string firstName = reader["s_name"].ToString();
+                            string lastName = reader["s_lastName"].ToString();
+
+                            stufffLabel.Text = $"{lastName} {firstName}";
+                        }
+                        else
+                        {
+                            stufffLabel.Text = "Пользователь не найден";
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error getting primary key column: " + ex.Message);
-                MessageBox.Show("Ошибка при получeнии столбца пeрвичного ключа: " + ex.Message);
+                MessageBox.Show("Ошибка загрузки пользователя: " + ex.Message);
             }
             finally
             {
                 if (connection.State == ConnectionState.Open)
                     connection.Close();
             }
-
-            return primaryKeyColumn;
-        }
-        private void buttonFill_Click(object sender, EventArgs e)
-        {
-            string selectedTable = comboBoxTables.SelectedItem?.ToString();
-            if (!string.IsNullOrEmpty(selectedTable))
-            {
-                InsertForm insertForm = new InsertForm(selectedTable, connection, this);
-                insertForm.Show();
-            }
-            else
-            {
-                MessageBox.Show("Выбeритe таблицу для вставки данных.");
-            }
         }
 
-        private void buttonDelete_Click(object sender, EventArgs e)
-        {
-            string tableName = comboBoxTables.SelectedItem?.ToString();
-            if (!string.IsNullOrEmpty(tableName))
-            {
-                if (dataGridView1.SelectedRows.Count > 0)
-                {
-                    foreach (DataGridViewRow row in dataGridView1.SelectedRows)
-                    {
-                        int id = GetIdFromSelectedRow(row, tableName);
-                        if (id != -1)
-                        {
-                            DeleteRecordFromDatabase(id, tableName);
-                            dataGridView1.Rows.Remove(row);
-                        }
-                        else
-                        {
-                            MessageBox.Show("Нe удалось опрeдeлить идeнтификатор записи.");
-                        }
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Выбeритe строку для удалeния.");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Выбeритe таблицу для удалeния.");
-            }
-        }
-        private void DeleteRecordFromDatabase(int id, string tableName)
+        private void LoadDataAndCreateCards(Guna2Panel cardsPanel)
         {
             try
             {
-                string primaryKeyColumn = GetPrimaryKeyColumn(tableName);
-                string query = $"DELETE FROM {tableName} WHERE {primaryKeyColumn} = @id";
-                using (MySqlCommand command = new MySqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@id", id);
+                if (connection.State != ConnectionState.Open)
                     connection.Open();
-                    command.ExecuteNonQuery();
+
+                string query = "SELECT r_id, r_country, r_departure_city, s.status_name, r_start_date, r_end_date, r_days_nights, r_adults_children, r_tourop_cost, r_agent_cost " +
+                               "FROM requests r JOIN status s ON r.r_status = s.status_id";
+                SqlCommand command = new SqlCommand(query, connection);
+                SqlDataReader reader = command.ExecuteReader();
+
+                int maxCards = 5;
+                int count = 0;
+                int cardSpacing = 6;
+
+                cardsPanel.Controls.Clear();
+
+                while (reader.Read() && count < maxCards)
+                {
+                    int id = reader.GetInt32(reader.GetOrdinal("r_id"));
+                    string country = reader.IsDBNull(reader.GetOrdinal("r_country")) ? "Unknown" : reader.GetString(reader.GetOrdinal("r_country"));
+                    string departureCity = reader.IsDBNull(reader.GetOrdinal("r_departure_city")) ? "Unknown" : reader.GetString(reader.GetOrdinal("r_departure_city"));
+                    string status = reader.IsDBNull(reader.GetOrdinal("status_name")) ? "Unknown" : reader.GetString(reader.GetOrdinal("status_name"));
+
+                    DateTime? startDate = reader.IsDBNull(reader.GetOrdinal("r_start_date")) ? (DateTime?)null : reader.GetDateTime(reader.GetOrdinal("r_start_date"));
+                    DateTime? endDate = reader.IsDBNull(reader.GetOrdinal("r_end_date")) ? (DateTime?)null : reader.GetDateTime(reader.GetOrdinal("r_end_date"));
+
+                    string daysNights = reader.IsDBNull(reader.GetOrdinal("r_days_nights")) ? "0/0" : reader.GetString(reader.GetOrdinal("r_days_nights"));
+                    string adultsChildren = reader.IsDBNull(reader.GetOrdinal("r_adults_children")) ? "0/0" : reader.GetString(reader.GetOrdinal("r_adults_children"));
+
+                    decimal touropCost = reader.IsDBNull(reader.GetOrdinal("r_tourop_cost")) ? 0 : reader.GetDecimal(reader.GetOrdinal("r_tourop_cost"));
+                    decimal agentCost = reader.IsDBNull(reader.GetOrdinal("r_agent_cost")) ? 0 : reader.GetDecimal(reader.GetOrdinal("r_agent_cost"));
+
+                    var card = CreateCard(id, country, departureCity, status, startDate, endDate, daysNights, adultsChildren, touropCost, agentCost);
+
+                    if (card == null)
+                    {
+                        MessageBox.Show("Ошибка при создании карточки!");
+                        return;
+                    }
+
+                    card.Location = new Point(0, (120 + cardSpacing) * count);
+                    cardsPanel.Controls.Add(card);
+                    count++;
                 }
+
+                reader.Close();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error deleting record from database: " + ex.Message);
-                MessageBox.Show("Ошибка при удалении записи из базы данных: " + ex.Message);
+                MessageBox.Show("Ошибка при загрузке данных: " + ex.Message);
             }
             finally
             {
-                connection.Close();
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
             }
         }
 
+        private Guna2Panel CreateCard(int id, string country, string departureCity, string status, DateTime? startDate, DateTime? endDate,
+                                        string daysNights, string adultsChildren, decimal touropCost, decimal agentCost)
+        {
+
+            Console.WriteLine($"Creating card for ID: {id}, Country: {country}, Departure City: {departureCity}, Status: {status}");
+
+            Font commonFont = new Font("Segoe UI Light", 12.25f, FontStyle.Regular);
+
+            Guna2Panel card = new Guna2Panel
+            {
+                Size = new Size(532, 120),
+                BackColor = Color.FromArgb(254, 254, 254),
+                BorderThickness = 0, // Отключаем стандартную границу
+                BorderColor = Color.Transparent, // Делаем границу невидимой (если не нужно)
+
+                CustomBorderThickness = new Padding(3, 0, 0, 0), // Левая граница 3px
+                CustomBorderColor = GetStatusColor(status), // Цвет границы по статусу
+            };
+
+            Guna2HtmlLabel requestIdLabel = new Guna2HtmlLabel
+            {
+                Text = $"№ {id:000000}",
+                Font = commonFont, // Применяем общий шрифт
+                ForeColor = Color.FromArgb(0, 50, 73),
+                Location = new Point(14, 8),
+                AutoSize = true
+            };
+            card.Controls.Add(requestIdLabel);
+
+            Console.WriteLine("Card created for ID " + id);
+
+            Guna2HtmlLabel countryLabel = new Guna2HtmlLabel
+            {
+                Text = country,
+                Font = new Font("Segoe UI", 14.25f, FontStyle.Bold),
+                ForeColor = Color.FromArgb(0, 50, 73),
+                Location = new Point(14, requestIdLabel.Bottom + 4),
+                AutoSize = true
+            };
+            card.Controls.Add(countryLabel);
+
+            PictureBox departureIcon = new PictureBox
+            {
+                Size = new Size(16, 16),
+                Location = new Point(14, countryLabel.Bottom + 10),
+                Image = Resources.departureIcon,
+                SizeMode = PictureBoxSizeMode.Normal
+            };
+            card.Controls.Add(departureIcon);
+
+            Guna2HtmlLabel departureCityLabel = new Guna2HtmlLabel
+            {
+                Text = departureCity,
+                Font = commonFont, // Применяем общий шрифт
+                ForeColor = Color.FromArgb(0, 50, 73),
+                Location = new Point(departureIcon.Right + 6, countryLabel.Bottom + 8),
+                AutoSize = true
+            };
+            card.Controls.Add(departureCityLabel);
+
+            PictureBox statusIcon = new PictureBox
+            {
+                Size = new Size(16, 16),
+                Location = new Point(14, departureCityLabel.Bottom + 4),
+                Image = Resources.statusIcon,
+                SizeMode = PictureBoxSizeMode.Normal
+            };
+            card.Controls.Add(statusIcon);
+
+            Guna2HtmlLabel statusLabel = new Guna2HtmlLabel
+            {
+                Text = status,
+                Font = new Font("Segoe UI", 12.25f, FontStyle.Bold),
+                Location = new Point(statusIcon.Right + 6, departureCityLabel.Bottom),
+                ForeColor = GetStatusColor(status), 
+                AutoSize = true
+            };
+            card.Controls.Add(statusLabel);
+
+            Guna2Panel dividerLine = new Guna2Panel
+            {
+                Size = new Size(1, 120),
+                BackColor = Color.LightGray,
+                Location = new Point(170, 0)
+            };
+            card.Controls.Add(dividerLine);
+
+            string dateText = (startDate.HasValue && endDate.HasValue)
+                ? $"{startDate:dd.MM} - {endDate:dd.MM.yyyy}"
+                : "Не указано";
+
+            Guna2HtmlLabel datesLabel = new Guna2HtmlLabel
+            {
+                Text = dateText,
+                Font = commonFont, // Применяем общий шрифт
+                ForeColor = Color.FromArgb(0, 50, 73),
+                Location = new Point(dividerLine.Right + 14, 8),
+                AutoSize = true
+            };
+            card.Controls.Add(datesLabel);
+
+            int tripDays = (startDate.HasValue && endDate.HasValue)
+                ? (endDate.Value - startDate.Value).Days
+                : 0;
+            int tripNights = tripDays > 0 ? tripDays - 1 : 0;
+
+            Guna2HtmlLabel tripDaysLabel = new Guna2HtmlLabel
+            {
+                Text = (tripDays > 0) ? $"{tripDays}/{tripNights} дн/нч" : "Не указано",
+                Font = commonFont, // Применяем общий шрифт
+                ForeColor = Color.FromArgb(0, 50, 73),
+                Location = new Point(dividerLine.Right + 14, datesLabel.Bottom + 1),
+                AutoSize = true
+            };
+            card.Controls.Add(tripDaysLabel);
+
+            string[] parts = adultsChildren.Split('/');
+            string formattedTravelers = "Не указано";
+
+            if (parts.Length == 2 && int.TryParse(parts[0], out int adults) && int.TryParse(parts[1], out int children))
+            {
+                formattedTravelers = $"{adults} {(adults == 1 ? "взрослый" : "взрослых")} {children} {(children == 1 ? "ребенок" : "детей")}";
+            }
+
+            Guna2HtmlLabel travelersLabel = new Guna2HtmlLabel
+            {
+                Text = formattedTravelers,
+                Font = commonFont, // Применяем общий шрифт
+                ForeColor = Color.FromArgb(0, 50, 73),
+                Location = new Point(dividerLine.Right + 14, tripDaysLabel.Bottom + 1),
+                AutoSize = true
+            };
+            card.Controls.Add(travelersLabel);
+
+            Guna2Panel dividerLine2 = new Guna2Panel
+            {
+                Size = new Size(1, 120),
+                BackColor = Color.LightGray,
+                Location = new Point(362, 0)
+            };
+            card.Controls.Add(dividerLine2);
+
+            // Блок 3: Стоимость
+            Guna2HtmlLabel touropCostLabelText = new Guna2HtmlLabel
+            {
+                Text = "стоимость у ТО",
+                Font = commonFont, // Применяем общий шрифт
+                ForeColor = Color.FromArgb(0, 50, 73),
+                Location = new Point(dividerLine2.Right + 14, 6)
+            };
+            card.Controls.Add(touropCostLabelText);
+
+            Guna2HtmlLabel touropCostLabel = new Guna2HtmlLabel
+            {
+                Text = (touropCost > 0) ? $"{touropCost:F2} EUR" : "Не указано",
+                Font = new Font("Segoe UI", 14.25f, FontStyle.Bold),
+                ForeColor = Color.FromArgb(0, 50, 73),
+                Location = new Point(dividerLine2.Right + 14, touropCostLabelText.Bottom),
+                AutoSize = true
+            };
+            card.Controls.Add(touropCostLabel);
+
+            Guna2HtmlLabel agentCostLabelText = new Guna2HtmlLabel
+            {
+                Text = "стоимость клиенту",
+                Font = commonFont, // Применяем общий шрифт
+                ForeColor = Color.FromArgb(0, 50, 73),
+                Location = new Point(dividerLine2.Right + 14, touropCostLabel.Bottom + 8)
+            };
+            card.Controls.Add(agentCostLabelText);
+
+            Guna2HtmlLabel agentCostLabel = new Guna2HtmlLabel
+            {
+                Text = (agentCost > 0) ? $"{agentCost:F2} EUR" : "Не указано",
+                Font = new Font("Segoe UI", 14.25f, FontStyle.Bold),
+                ForeColor = Color.FromArgb(71, 137, 120),
+                Location = new Point(dividerLine2.Right + 14, agentCostLabelText.Bottom),
+                AutoSize = true
+            };
+            card.Controls.Add(agentCostLabel);
+
+            return card;
+        }
+        private Color GetStatusColor(string status)
+        {
+            switch (status)
+            {
+                case "Не обработана":
+                case "1":
+                    return Color.FromArgb(230, 128, 136); // Цвет для "Не обработана" и "1"
+                case "В работе":
+                case "2":
+                    return Color.FromArgb(71, 137, 120); // Цвет для "В работе" и "2"
+                case "Отослана":
+                case "3":
+                    return Color.FromArgb(252, 213, 136); // Цвет для "Отослана" и "3"
+                case "Аннулирована":
+                case "4":
+                    return Color.FromArgb(255, 192, 192); // Цвет для "Аннулирована" и "4"
+                case "ОК":
+                case "5":
+                    return Color.FromArgb(249, 160, 119); // Цвет для "ОК" и "5"
+                case "Wait list":
+                case "6":
+                    return Color.FromArgb(167, 192, 241); // Цвет для "Wait list" и "6"
+                default:
+                    return Color.Gray; // Цвет по умолчанию
+            }
+        }
+
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            Console.WriteLine("MainForm_Load event triggered.");
+            LoadDataAndCreateCards(cardsPanel);
+        }
+
+        private void HideButton_MouseEnter(object sender, EventArgs e)
+        {
+            hideButton.Image = hoverHideImage;
+        }
+        private void HideButton_MouseLeave(object sender, EventArgs e)
+        {
+            hideButton.Image = normalHideImage;
+        }
+
+        private void CloseButton_MouseEnter(object sender, EventArgs e)
+        {
+            closeButton.Image = hoverCloseImage;
+        }
+        private void CloseButton_MouseLeave(object sender, EventArgs e)
+        {
+            closeButton.Image = normalCloseImage;
+        }
+
+        private void Button_MouseEnter(object sender, EventArgs e)
+        {
+            if (sender is Guna2Button button)
+            {
+                mainButton.CustomBorderThickness = new Padding(0);
+                mainButton.CustomBorderColor = Color.Transparent;  // Убираем цвет границы
+                button.CustomBorderThickness = new Padding(4, 0, 0, 0); // Левая граница 3px
+                button.CustomBorderColor = Color.White; // Цвет границы слева
+            }
+        }
+        private void Button_MouseLeave(object sender, EventArgs e)
+        {
+            if (sender is Guna2Button button)
+            {
+                button.CustomBorderThickness = new Padding(0);
+                button.CustomBorderColor = Color.Transparent;
+                mainButton.CustomBorderThickness = new Padding(4, 0, 0, 0);
+                mainButton.CustomBorderColor = Color.White;
+            }
+        }
+
+        private void ProfileButton_MouseEnter(object sender, EventArgs e)
+        {
+            mainButton.CustomBorderThickness = new Padding(0);
+            mainButton.CustomBorderColor = Color.Transparent; 
+
+        }
+        private void ProfileButton_MouseLeave(object sender, EventArgs e)
+        {
+            if (sender is Guna2Button)
+            {
+                mainButton.CustomBorderThickness = new Padding(4, 0, 0, 0);
+                mainButton.CustomBorderColor = Color.White;
+            }
+        }
+
+        private void RequestButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string sessionToken = File.ReadAllText("session.txt").Trim();
+                if (string.IsNullOrEmpty(sessionToken))
+                {
+                    MessageBox.Show("Ошибка: токен сессии не найден.");
+                    return;
+                }
+
+                int userId = -1;
+                string login = string.Empty;
+
+                if (connection.State != ConnectionState.Open)
+                    connection.Open();
+
+                string query1 = "SELECT user_id FROM user_sessions WHERE token = @token AND expires_at > GETDATE()";
+                using (SqlCommand cmd = new SqlCommand(query1, connection))
+                {
+                    cmd.Parameters.AddWithValue("@token", sessionToken);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            userId = Convert.ToInt32(reader["user_id"]);
+                        }
+                    }
+                }
+
+                if (userId == -1)
+                {
+                    MessageBox.Show("Ошибка: сессия недействительна или истекла.");
+                    return;
+                }
+
+                string query2 = "SELECT s_login FROM stufff WHERE s_id = @userId";
+                using (SqlCommand cmd = new SqlCommand(query2, connection))
+                {
+                    cmd.Parameters.AddWithValue("@userId", userId);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            login = reader["s_login"].ToString();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Пользователь не найден.");
+                            return;
+                        }
+                    }
+                }
+
+                this.Hide();
+                RequestForm requestForm = new RequestForm(connection, this);
+                requestForm.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при обработке запроса: " + ex.Message);
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
+            }
+        }
+
+        private void HideButton_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+        private void CloseButton_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void LogoutButton_Click(object sender, EventArgs e)
+        {
+            Logout();
+            LoginForm loginForm = new LoginForm(connection);
+            loginForm.Show();
+        }
+        private void Logout()
+        {
+            if (File.Exists("session.txt"))
+            {
+                File.Delete("session.txt"); 
+            }
+
+            this.Hide();
+            LoginForm loginForm = new LoginForm(connection);  
+            loginForm.Show();
+        }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Application.Exit();
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
-
-        private void buttonFill_Enter(object sender, EventArgs e)
-        {
-            buttonFill.Font = new Font(buttonFill.Font, FontStyle.Underline);
-        }
-
-        private void buttonFill_Leave(object sender, EventArgs e)
-        {
-            buttonFill.Font = new Font(buttonFill.Font, FontStyle.Regular);
-        }
-
-        private void buttonDelete_Enter(object sender, EventArgs e)
-        {
-            buttonDelete.Font = new Font(buttonDelete.Font, FontStyle.Underline);
-        }
-
-        private void buttonDelete_Leave(object sender, EventArgs e)
-        {
-            buttonDelete.Font = new Font(buttonDelete.Font, FontStyle.Regular);
-        }
-
-
-
-
-        /*public void LoadDataIntoDataGridView(string selectedTable)
-        {
-            // Проверка наличия выбранной таблицы и соединения с базой данных
-            if (!string.IsNullOrEmpty(selectedTable) && connection != null)
-            {
-                try
-                {
-                    string query = $"SELECT * FROM `{selectedTable}`";
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection);
-                    currentTable = new DataTable();
-                    adapter.Fill(currentTable);
-
-                    // Проходим по столбцам DataGridView и заменяем значения связанных полей
-                    foreach (DataGridViewColumn column in dataGridView1.Columns)
-                    {
-                        if (IsForeignKeyColumn(selectedTable, column.Name))
-                        {
-                            string referencedValueColumn = displayColumns[foreignKeyMappings[selectedTable][column.Name]];
-                            foreach (DataGridViewRow row in dataGridView1.Rows)
-                            {
-                                object foreignKeyValue = row.Cells[column.Name].Value;
-                                string foreignKeyValueString = foreignKeyValue.ToString();
-                                string referencedValue = GetReferencedValue(selectedTable, column.Name, foreignKeyValueString);
-                                row.Cells[column.Name].Value = referencedValue;
-                            }
-                        }
-                    }
-
-                    // Установка DataTable в качестве источника данных для DataGridView
-                    dataGridView1.DataSource = currentTable;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Error loading data: " + ex.Message);
-                    MessageBox.Show("Ошибка при загрузке данных таблицы: " + ex.Message);
-                }
-            }
-        }
-
-        private bool IsExcludedColumn(string columnName)
-        {
-            return columnName.EndsWith("_id", StringComparison.OrdinalIgnoreCase) || columnName.Equals("reg_date", StringComparison.OrdinalIgnoreCase);
-        }
-
-
-        private Dictionary<string, string> displayColumns = new Dictionary<string, string>()
-        {
-            { "clients", "c_fullname" },
-            { "education", "e_specialty" },
-            { "stufff", "s_fullname" },
-            { "touroperators", "t_name" },
-            { "status", "status_name" },
-            { "types", "et_name" },
-            // Добавьте другие таблицы и соответствующие столбцы для отображения
-        };
-
-        private Dictionary<string, Dictionary<string, string>> foreignKeyMappings = new Dictionary<string, Dictionary<string, string>>()
-        {
-            { "clients", new Dictionary<string, string>() { { "c_education", "education" } } },
-            { "stufff", new Dictionary<string, string>() { { "s_feducation", "education" }, { "s_seducation", "education" } } },
-            { "requests", new Dictionary<string, string>() { { "r_client", "clients" }, { "r_stuff", "stufff" }, { "r_tourop", "touroperators" }, { "r_status", "status" } } },
-            { "process", new Dictionary<string, string>() { { "p_staff", "stufff" }, { "p_req", "requests" }, { "p_status", "status" } } },
-            { "education", new Dictionary<string, string>() { { "e_type", "types" } } } // Изменено на "types"
-        };
-
-        // Определение метода для преобразования типов данных в DataTable
-
-
-        private bool IsForeignKeyColumn(string tableName, string columnName)
-        {
-            if (foreignKeyMappings.ContainsKey(tableName))
-            {
-                foreach (var mapping in foreignKeyMappings[tableName])
-                {
-                    if (mapping.Key.Equals(columnName, StringComparison.OrdinalIgnoreCase))
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-        private string GetReferencedValue(string tableName, string foreignKeyColumn, string foreignKeyValue)
-        {
-            string referencedValue = null;
-            try
-            {
-                string referencedTableName = foreignKeyMappings[tableName][foreignKeyColumn];
-                string displayColumn = displayColumns[referencedTableName];
-                string query = $"SELECT {displayColumn} FROM {referencedTableName} WHERE {GetPrimaryKeyColumn(referencedTableName)} = @id";
-                using (MySqlCommand command = new MySqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@id", foreignKeyValue);
-                    connection.Open();
-                    object result = command.ExecuteScalar();
-                    if (result != DBNull.Value)
-                    {
-                        referencedValue = result.ToString();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error getting referenced value for {tableName}.{foreignKeyColumn}: " + ex.Message);
-            }
-            finally
-            {
-                if (connection.State == ConnectionState.Open)
-                    connection.Close();
-            }
-            return referencedValue;
-        } */
 
     }
-       
 }

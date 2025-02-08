@@ -29,253 +29,405 @@ namespace WindowsFormsApp1
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RegisterForm));
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.back = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.fullnamefield = new System.Windows.Forms.TextBox();
-            this.postfield = new System.Windows.Forms.TextBox();
-            this.buttonLogin = new System.Windows.Forms.Button();
-            this.passfield = new System.Windows.Forms.TextBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.loginfield = new System.Windows.Forms.TextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.datefield = new System.Windows.Forms.MaskedTextBox();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.panel2.SuspendLayout();
+            this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
+            this.messageLabel = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.backLabel = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.registerButton = new Guna.UI2.WinForms.Guna2Button();
+            this.guna2HtmlLabel6 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.guna2Panel2 = new Guna.UI2.WinForms.Guna2Panel();
+            this.guna2Panel3 = new Guna.UI2.WinForms.Guna2Panel();
+            this.guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.lastNameField = new Guna.UI2.WinForms.Guna2TextBox();
+            this.postField = new Guna.UI2.WinForms.Guna2TextBox();
+            this.nameField = new Guna.UI2.WinForms.Guna2TextBox();
+            this.guna2HtmlLabel4 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.guna2HtmlLabel3 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.loginField = new Guna.UI2.WinForms.Guna2TextBox();
+            this.passwordField = new Guna.UI2.WinForms.Guna2TextBox();
+            this.guna2DragControl1 = new Guna.UI2.WinForms.Guna2DragControl(this.components);
+            this.guna2PictureBox5 = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.closeButton = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.hideButton = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.guna2PictureBox1 = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.guna2Panel1.SuspendLayout();
+            this.guna2Panel2.SuspendLayout();
+            this.guna2Panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.closeButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hideButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
-            // panel1
+            // guna2Panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(226)))), ((int)(((byte)(232)))));
-            this.panel1.Controls.Add(this.datefield);
-            this.panel1.Controls.Add(this.back);
-            this.panel1.Controls.Add(this.label6);
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.fullnamefield);
-            this.panel1.Controls.Add(this.postfield);
-            this.panel1.Controls.Add(this.buttonLogin);
-            this.panel1.Controls.Add(this.passfield);
-            this.panel1.Controls.Add(this.pictureBox2);
-            this.panel1.Controls.Add(this.loginfield);
-            this.panel1.Controls.Add(this.pictureBox1);
-            this.panel1.Controls.Add(this.panel2);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(434, 541);
-            this.panel1.TabIndex = 1;
+            this.guna2Panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(73)))));
+            this.guna2Panel1.BorderColor = System.Drawing.Color.White;
+            this.guna2Panel1.Controls.Add(this.messageLabel);
+            this.guna2Panel1.Controls.Add(this.backLabel);
+            this.guna2Panel1.Controls.Add(this.registerButton);
+            this.guna2Panel1.Controls.Add(this.guna2HtmlLabel6);
+            this.guna2Panel1.Controls.Add(this.guna2Panel2);
+            this.guna2Panel1.Controls.Add(this.guna2Panel3);
+            this.guna2Panel1.Controls.Add(this.guna2PictureBox1);
+            this.guna2Panel1.Location = new System.Drawing.Point(1, 1);
+            this.guna2Panel1.Name = "guna2Panel1";
+            this.guna2Panel1.Size = new System.Drawing.Size(300, 532);
+            this.guna2Panel1.TabIndex = 16;
             // 
-            // back
+            // messageLabel
             // 
-            this.back.AutoSize = true;
-            this.back.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.back.Location = new System.Drawing.Point(199, 485);
-            this.back.Name = "back";
-            this.back.Size = new System.Drawing.Size(57, 21);
-            this.back.TabIndex = 14;
-            this.back.Text = "Назад";
-            this.back.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.back.Click += new System.EventHandler(this.back_Click);
-            this.back.MouseEnter += new System.EventHandler(this.back_MouseEnter);
-            this.back.MouseLeave += new System.EventHandler(this.back_MouseLeave);
+            this.messageLabel.BackColor = System.Drawing.Color.Transparent;
+            this.messageLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.messageLabel.ForeColor = System.Drawing.Color.White;
+            this.messageLabel.Location = new System.Drawing.Point(130, 507);
+            this.messageLabel.Name = "messageLabel";
+            this.messageLabel.Size = new System.Drawing.Size(3, 2);
+            this.messageLabel.TabIndex = 30;
+            this.messageLabel.Text = null;
+            this.messageLabel.TextAlignment = System.Drawing.ContentAlignment.TopRight;
             // 
-            // label6
+            // backLabel
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(107, 319);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(86, 13);
-            this.label6.TabIndex = 13;
-            this.label6.Text = "Дата рождения";
+            this.backLabel.BackColor = System.Drawing.Color.Transparent;
+            this.backLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.backLabel.ForeColor = System.Drawing.Color.White;
+            this.backLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.backLabel.Location = new System.Drawing.Point(228, 451);
+            this.backLabel.Name = "backLabel";
+            this.backLabel.Size = new System.Drawing.Size(47, 23);
+            this.backLabel.TabIndex = 29;
+            this.backLabel.Text = "Назад";
+            this.backLabel.Click += new System.EventHandler(this.BackLabel_Click);
+            this.backLabel.MouseEnter += new System.EventHandler(this.BackLabel_MouseEnter);
+            this.backLabel.MouseLeave += new System.EventHandler(this.BackLabel_MouseLeave);
             // 
-            // label5
+            // registerButton
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(107, 376);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(45, 13);
-            this.label5.TabIndex = 11;
-            this.label5.Text = "Пароль";
+            this.registerButton.BorderColor = System.Drawing.SystemColors.ActiveBorder;
+            this.registerButton.BorderThickness = 1;
+            this.registerButton.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.registerButton.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.registerButton.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.registerButton.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.registerButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(137)))), ((int)(((byte)(120)))));
+            this.registerButton.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
+            this.registerButton.ForeColor = System.Drawing.Color.White;
+            this.registerButton.Location = new System.Drawing.Point(147, 413);
+            this.registerButton.Name = "registerButton";
+            this.registerButton.PressedColor = System.Drawing.Color.Empty;
+            this.registerButton.Size = new System.Drawing.Size(128, 32);
+            this.registerButton.TabIndex = 18;
+            this.registerButton.Text = "Регистрация";
+            this.registerButton.Click += new System.EventHandler(this.RegisterButton_Click);
+            this.registerButton.MouseEnter += new System.EventHandler(this.RegisterButton_MouseEnter);
+            this.registerButton.MouseLeave += new System.EventHandler(this.RegisterButton_MouseLeave);
             // 
-            // label4
+            // guna2HtmlLabel6
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(107, 261);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(38, 13);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "Логин";
+            this.guna2HtmlLabel6.BackColor = System.Drawing.Color.Transparent;
+            this.guna2HtmlLabel6.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.guna2HtmlLabel6.ForeColor = System.Drawing.Color.White;
+            this.guna2HtmlLabel6.Location = new System.Drawing.Point(22, 37);
+            this.guna2HtmlLabel6.Name = "guna2HtmlLabel6";
+            this.guna2HtmlLabel6.Size = new System.Drawing.Size(248, 32);
+            this.guna2HtmlLabel6.TabIndex = 28;
+            this.guna2HtmlLabel6.Text = "Регистрация сотрудника";
+            this.guna2HtmlLabel6.TextAlignment = System.Drawing.ContentAlignment.TopRight;
+            this.guna2HtmlLabel6.UseSystemCursors = true;
             // 
-            // label3
+            // guna2Panel2
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(107, 189);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(65, 13);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "Должность";
+            this.guna2Panel2.BackColor = System.Drawing.Color.White;
+            this.guna2Panel2.Controls.Add(this.guna2PictureBox5);
+            this.guna2Panel2.Controls.Add(this.closeButton);
+            this.guna2Panel2.Controls.Add(this.hideButton);
+            this.guna2Panel2.Location = new System.Drawing.Point(0, -1);
+            this.guna2Panel2.Name = "guna2Panel2";
+            this.guna2Panel2.Size = new System.Drawing.Size(300, 32);
+            this.guna2Panel2.TabIndex = 14;
             // 
-            // label2
+            // guna2Panel3
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(107, 109);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(34, 13);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "ФИО";
+            this.guna2Panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(73)))));
+            this.guna2Panel3.Controls.Add(this.guna2HtmlLabel1);
+            this.guna2Panel3.Controls.Add(this.lastNameField);
+            this.guna2Panel3.Controls.Add(this.postField);
+            this.guna2Panel3.Controls.Add(this.nameField);
+            this.guna2Panel3.Controls.Add(this.guna2HtmlLabel4);
+            this.guna2Panel3.Controls.Add(this.guna2HtmlLabel3);
+            this.guna2Panel3.Controls.Add(this.loginField);
+            this.guna2Panel3.Controls.Add(this.passwordField);
+            this.guna2Panel3.Location = new System.Drawing.Point(11, 75);
+            this.guna2Panel3.Name = "guna2Panel3";
+            this.guna2Panel3.Size = new System.Drawing.Size(278, 332);
+            this.guna2Panel3.TabIndex = 16;
             // 
-            // fullnamefield
+            // guna2HtmlLabel1
             // 
-            this.fullnamefield.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.fullnamefield.Location = new System.Drawing.Point(101, 125);
-            this.fullnamefield.Multiline = true;
-            this.fullnamefield.Name = "fullnamefield";
-            this.fullnamefield.Size = new System.Drawing.Size(255, 50);
-            this.fullnamefield.TabIndex = 7;
+            this.guna2HtmlLabel1.BackColor = System.Drawing.Color.Transparent;
+            this.guna2HtmlLabel1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.guna2HtmlLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(228)))), ((int)(((byte)(242)))), ((int)(((byte)(247)))));
+            this.guna2HtmlLabel1.Location = new System.Drawing.Point(11, 7);
+            this.guna2HtmlLabel1.Name = "guna2HtmlLabel1";
+            this.guna2HtmlLabel1.Size = new System.Drawing.Size(228, 32);
+            this.guna2HtmlLabel1.TabIndex = 24;
+            this.guna2HtmlLabel1.Text = "Основная информация";
             // 
-            // postfield
+            // lastNameField
             // 
-            this.postfield.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.postfield.Location = new System.Drawing.Point(101, 205);
-            this.postfield.Multiline = true;
-            this.postfield.Name = "postfield";
-            this.postfield.Size = new System.Drawing.Size(255, 50);
-            this.postfield.TabIndex = 6;
+            this.lastNameField.BorderColor = System.Drawing.SystemColors.ActiveBorder;
+            this.lastNameField.BorderRadius = 1;
+            this.lastNameField.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.lastNameField.DefaultText = "Фамилия";
+            this.lastNameField.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.lastNameField.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.lastNameField.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.lastNameField.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.lastNameField.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.lastNameField.Font = new System.Drawing.Font("Segoe UI Semilight", 12F);
+            this.lastNameField.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.lastNameField.Location = new System.Drawing.Point(30, 46);
+            this.lastNameField.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lastNameField.Name = "lastNameField";
+            this.lastNameField.PasswordChar = '\0';
+            this.lastNameField.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(99)))), ((int)(((byte)(99)))), ((int)(((byte)(99)))));
+            this.lastNameField.PlaceholderText = "";
+            this.lastNameField.SelectedText = "";
+            this.lastNameField.Size = new System.Drawing.Size(234, 32);
+            this.lastNameField.TabIndex = 16;
+            this.lastNameField.Enter += new System.EventHandler(this.LastNameField_Enter);
+            this.lastNameField.Leave += new System.EventHandler(this.LastNameField_Leave);
             // 
-            // buttonLogin
+            // postField
             // 
-            this.buttonLogin.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Silver;
-            this.buttonLogin.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
-            this.buttonLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonLogin.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonLogin.Location = new System.Drawing.Point(101, 452);
-            this.buttonLogin.Name = "buttonLogin";
-            this.buttonLogin.Size = new System.Drawing.Size(255, 30);
-            this.buttonLogin.TabIndex = 5;
-            this.buttonLogin.Text = "Зарегестрироваться";
-            this.buttonLogin.UseVisualStyleBackColor = true;
-            this.buttonLogin.Click += new System.EventHandler(this.buttonLogin_Click);
+            this.postField.BorderColor = System.Drawing.SystemColors.ActiveBorder;
+            this.postField.BorderRadius = 1;
+            this.postField.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.postField.DefaultText = "Должность";
+            this.postField.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.postField.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.postField.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.postField.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.postField.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.postField.Font = new System.Drawing.Font("Segoe UI Semilight", 12F);
+            this.postField.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.postField.Location = new System.Drawing.Point(30, 164);
+            this.postField.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.postField.Name = "postField";
+            this.postField.PasswordChar = '\0';
+            this.postField.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(99)))), ((int)(((byte)(99)))), ((int)(((byte)(99)))));
+            this.postField.PlaceholderText = "";
+            this.postField.SelectedText = "";
+            this.postField.Size = new System.Drawing.Size(234, 32);
+            this.postField.TabIndex = 21;
+            this.postField.Enter += new System.EventHandler(this.PostField_Enter);
+            this.postField.Leave += new System.EventHandler(this.PostField_Leave);
             // 
-            // passfield
+            // nameField
             // 
-            this.passfield.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.passfield.Location = new System.Drawing.Point(101, 392);
-            this.passfield.Multiline = true;
-            this.passfield.Name = "passfield";
-            this.passfield.Size = new System.Drawing.Size(255, 30);
-            this.passfield.TabIndex = 4;
-            this.passfield.UseSystemPasswordChar = true;
+            this.nameField.BorderColor = System.Drawing.SystemColors.ActiveBorder;
+            this.nameField.BorderRadius = 1;
+            this.nameField.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.nameField.DefaultText = "Имя";
+            this.nameField.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.nameField.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.nameField.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.nameField.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.nameField.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.nameField.Font = new System.Drawing.Font("Segoe UI Semilight", 12F);
+            this.nameField.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.nameField.Location = new System.Drawing.Point(30, 86);
+            this.nameField.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.nameField.Name = "nameField";
+            this.nameField.PasswordChar = '\0';
+            this.nameField.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(99)))), ((int)(((byte)(99)))), ((int)(((byte)(99)))));
+            this.nameField.PlaceholderText = "";
+            this.nameField.SelectedText = "";
+            this.nameField.Size = new System.Drawing.Size(234, 32);
+            this.nameField.TabIndex = 20;
+            this.nameField.Enter += new System.EventHandler(this.NameField_Enter);
+            this.nameField.Leave += new System.EventHandler(this.NameField_Leave);
             // 
-            // pictureBox2
+            // guna2HtmlLabel4
             // 
-            this.pictureBox2.Image = global::WindowsFormsApp1.Properties.Resources._10716887_summer_palm_tree_tropical_beach_coconut_icon;
-            this.pictureBox2.InitialImage = null;
-            this.pictureBox2.Location = new System.Drawing.Point(45, 205);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(50, 50);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox2.TabIndex = 3;
-            this.pictureBox2.TabStop = false;
+            this.guna2HtmlLabel4.BackColor = System.Drawing.Color.Transparent;
+            this.guna2HtmlLabel4.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.guna2HtmlLabel4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(228)))), ((int)(((byte)(242)))), ((int)(((byte)(247)))));
+            this.guna2HtmlLabel4.Location = new System.Drawing.Point(11, 209);
+            this.guna2HtmlLabel4.Name = "guna2HtmlLabel4";
+            this.guna2HtmlLabel4.Size = new System.Drawing.Size(179, 32);
+            this.guna2HtmlLabel4.TabIndex = 26;
+            this.guna2HtmlLabel4.Text = "Данные для входа";
             // 
-            // loginfield
+            // guna2HtmlLabel3
             // 
-            this.loginfield.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.loginfield.Location = new System.Drawing.Point(101, 277);
-            this.loginfield.Multiline = true;
-            this.loginfield.Name = "loginfield";
-            this.loginfield.Size = new System.Drawing.Size(255, 30);
-            this.loginfield.TabIndex = 2;
+            this.guna2HtmlLabel3.BackColor = System.Drawing.Color.Transparent;
+            this.guna2HtmlLabel3.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.guna2HtmlLabel3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(228)))), ((int)(((byte)(242)))), ((int)(((byte)(247)))));
+            this.guna2HtmlLabel3.Location = new System.Drawing.Point(11, 125);
+            this.guna2HtmlLabel3.Name = "guna2HtmlLabel3";
+            this.guna2HtmlLabel3.Size = new System.Drawing.Size(111, 32);
+            this.guna2HtmlLabel3.TabIndex = 25;
+            this.guna2HtmlLabel3.Text = "Должность";
             // 
-            // pictureBox1
+            // loginField
             // 
-            this.pictureBox1.Image = global::WindowsFormsApp1.Properties.Resources._10716887_summer_palm_tree_tropical_beach_coconut_icon;
-            this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(45, 125);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(50, 50);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
+            this.loginField.BorderColor = System.Drawing.SystemColors.ActiveBorder;
+            this.loginField.BorderRadius = 1;
+            this.loginField.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.loginField.DefaultText = "Логин";
+            this.loginField.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.loginField.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.loginField.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.loginField.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.loginField.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.loginField.Font = new System.Drawing.Font("Segoe UI Semilight", 12F);
+            this.loginField.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.loginField.Location = new System.Drawing.Point(30, 248);
+            this.loginField.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.loginField.Name = "loginField";
+            this.loginField.PasswordChar = '\0';
+            this.loginField.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(99)))), ((int)(((byte)(99)))), ((int)(((byte)(99)))));
+            this.loginField.PlaceholderText = "";
+            this.loginField.SelectedText = "";
+            this.loginField.Size = new System.Drawing.Size(234, 32);
+            this.loginField.TabIndex = 22;
+            this.loginField.Enter += new System.EventHandler(this.LoginField_Enter);
+            this.loginField.Leave += new System.EventHandler(this.LoginField_Leave);
             // 
-            // panel2
+            // passwordField
             // 
-            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.panel2.Controls.Add(this.label1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(434, 83);
-            this.panel2.TabIndex = 0;
+            this.passwordField.BorderColor = System.Drawing.SystemColors.ActiveBorder;
+            this.passwordField.BorderRadius = 1;
+            this.passwordField.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.passwordField.DefaultText = "Пароль";
+            this.passwordField.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.passwordField.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.passwordField.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.passwordField.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.passwordField.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.passwordField.Font = new System.Drawing.Font("Segoe UI Semilight", 12F);
+            this.passwordField.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.passwordField.Location = new System.Drawing.Point(30, 288);
+            this.passwordField.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.passwordField.Name = "passwordField";
+            this.passwordField.PasswordChar = '\0';
+            this.passwordField.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(99)))), ((int)(((byte)(99)))), ((int)(((byte)(99)))));
+            this.passwordField.PlaceholderText = "";
+            this.passwordField.SelectedText = "";
+            this.passwordField.Size = new System.Drawing.Size(234, 32);
+            this.passwordField.TabIndex = 23;
+            this.passwordField.Enter += new System.EventHandler(this.PasswordField_Enter);
+            this.passwordField.Leave += new System.EventHandler(this.PasswordField_Leave);
             // 
-            // label1
+            // guna2DragControl1
             // 
-            this.label1.Font = new System.Drawing.Font("Times New Roman", 32.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label1.Location = new System.Drawing.Point(92, 14);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(260, 59);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Регистрация";
+            this.guna2DragControl1.DockIndicatorColor = System.Drawing.Color.Empty;
+            this.guna2DragControl1.DockIndicatorTransparencyValue = 0.6D;
+            this.guna2DragControl1.DragStartTransparencyValue = 1D;
+            this.guna2DragControl1.TargetControl = this.guna2Panel2;
+            this.guna2DragControl1.UseTransparentDrag = true;
             // 
-            // datefield
+            // guna2PictureBox5
             // 
-            this.datefield.Font = new System.Drawing.Font("Times New Roman", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.datefield.Location = new System.Drawing.Point(101, 335);
-            this.datefield.Mask = "0000-00-00";
-            this.datefield.Name = "datefield";
-            this.datefield.Size = new System.Drawing.Size(255, 30);
-            this.datefield.TabIndex = 2;
+            this.guna2PictureBox5.Image = global::WindowsFormsApp1.Properties.Resources.LogoFull;
+            this.guna2PictureBox5.ImageRotate = 0F;
+            this.guna2PictureBox5.Location = new System.Drawing.Point(14, 6);
+            this.guna2PictureBox5.Name = "guna2PictureBox5";
+            this.guna2PictureBox5.Size = new System.Drawing.Size(104, 24);
+            this.guna2PictureBox5.TabIndex = 15;
+            this.guna2PictureBox5.TabStop = false;
+            // 
+            // closeButton
+            // 
+            this.closeButton.ErrorImage = ((System.Drawing.Image)(resources.GetObject("closeButton.ErrorImage")));
+            this.closeButton.Image = global::WindowsFormsApp1.Properties.Resources.ButtonClose;
+            this.closeButton.ImageRotate = 0F;
+            this.closeButton.InitialImage = ((System.Drawing.Image)(resources.GetObject("closeButton.InitialImage")));
+            this.closeButton.Location = new System.Drawing.Point(266, 4);
+            this.closeButton.Name = "closeButton";
+            this.closeButton.Size = new System.Drawing.Size(23, 23);
+            this.closeButton.TabIndex = 14;
+            this.closeButton.TabStop = false;
+            this.closeButton.Click += new System.EventHandler(this.CloseButton_Click);
+            this.closeButton.MouseEnter += new System.EventHandler(this.CloseButton_MouseEnter);
+            this.closeButton.MouseLeave += new System.EventHandler(this.CloseButton_MouseLeave);
+            // 
+            // hideButton
+            // 
+            this.hideButton.Image = global::WindowsFormsApp1.Properties.Resources.ButtonHide;
+            this.hideButton.ImageRotate = 0F;
+            this.hideButton.Location = new System.Drawing.Point(233, 4);
+            this.hideButton.Name = "hideButton";
+            this.hideButton.Size = new System.Drawing.Size(23, 23);
+            this.hideButton.TabIndex = 13;
+            this.hideButton.TabStop = false;
+            this.hideButton.Click += new System.EventHandler(this.HideButton_Click);
+            this.hideButton.MouseEnter += new System.EventHandler(this.HideButton_MouseEnter);
+            this.hideButton.MouseLeave += new System.EventHandler(this.HideButton_MouseLeave);
+            // 
+            // guna2PictureBox1
+            // 
+            this.guna2PictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.guna2PictureBox1.ErrorImage = ((System.Drawing.Image)(resources.GetObject("guna2PictureBox1.ErrorImage")));
+            this.guna2PictureBox1.Image = global::WindowsFormsApp1.Properties.Resources.Logo;
+            this.guna2PictureBox1.ImageRotate = 0F;
+            this.guna2PictureBox1.InitialImage = ((System.Drawing.Image)(resources.GetObject("guna2PictureBox1.InitialImage")));
+            this.guna2PictureBox1.Location = new System.Drawing.Point(22, 408);
+            this.guna2PictureBox1.Name = "guna2PictureBox1";
+            this.guna2PictureBox1.Size = new System.Drawing.Size(149, 100);
+            this.guna2PictureBox1.TabIndex = 13;
+            this.guna2PictureBox1.TabStop = false;
             // 
             // RegisterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(434, 541);
-            this.Controls.Add(this.panel1);
+            this.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.ClientSize = new System.Drawing.Size(302, 534);
+            this.Controls.Add(this.guna2Panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RegisterForm";
+            this.RightToLeftLayout = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "RegisterForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RegisterForm_FormClosing);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.panel2.ResumeLayout(false);
+            this.guna2Panel1.ResumeLayout(false);
+            this.guna2Panel1.PerformLayout();
+            this.guna2Panel2.ResumeLayout(false);
+            this.guna2Panel3.ResumeLayout(false);
+            this.guna2Panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.closeButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hideButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button buttonLogin;
-        private System.Windows.Forms.TextBox passfield;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.TextBox loginfield;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox fullnamefield;
-        private System.Windows.Forms.TextBox postfield;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label back;
-        private System.Windows.Forms.MaskedTextBox datefield;
+        private Guna.UI2.WinForms.Guna2Panel guna2Panel1;
+        private Guna.UI2.WinForms.Guna2Button registerButton;
+        private Guna.UI2.WinForms.Guna2TextBox lastNameField;
+        private Guna.UI2.WinForms.Guna2Panel guna2Panel2;
+        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox5;
+        private Guna.UI2.WinForms.Guna2PictureBox closeButton;
+        private Guna.UI2.WinForms.Guna2PictureBox hideButton;
+        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox1;
+        private Guna.UI2.WinForms.Guna2DragControl guna2DragControl1;
+        private Guna.UI2.WinForms.Guna2TextBox nameField;
+        private Guna.UI2.WinForms.Guna2TextBox postField;
+        private Guna.UI2.WinForms.Guna2TextBox passwordField;
+        private Guna.UI2.WinForms.Guna2TextBox loginField;
+        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel4;
+        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel3;
+        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
+        private Guna.UI2.WinForms.Guna2Panel guna2Panel3;
+        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel6;
+        private Guna.UI2.WinForms.Guna2HtmlLabel backLabel;
+        private Guna.UI2.WinForms.Guna2HtmlLabel messageLabel;
     }
 }
