@@ -1,68 +1,59 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.IO;
-using MySql.Data.MySqlClient;
 
 public static class DatabaseInitializer
 {
-    private static string connectionString = "host=localhost;port=3306;user=root;password=;";
-    private static string databaseName = "db_ta";
+    private static readonly string connectionString = @"Server=.\SQLEXPRESS;Integrated Security=True;";
+    private static readonly string databaseName = "db_ta";
 
-    public static MySqlConnection InitializeDatabase()
+    public static SqlConnection InitializeDatabase()
     {
-        // Получаем путь к базовой директории проекта
-        string projectDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
-
-        // Формируем путь к файлу базы данных относительно базовой директории проекта
-        string scriptFileName = Path.Combine(projectDirectory, "database.sql");
-
         if (!DatabaseExists(databaseName))
         {
             CreateDatabase();
-            ExecuteScript(scriptFileName);
+            ExecuteScript("database.sql");
         }
         else
         {
-            Console.WriteLine("База данных уже существует.");
+            Console.WriteLine("✅ База данных уже существует.");
         }
 
-        MySqlConnection connection = new MySqlConnection(connectionString + $"database={databaseName}");
+        SqlConnection connection = new SqlConnection($"{connectionString}Database={databaseName};");
 
         try
         {
             connection.Open();
-            Console.WriteLine("Соединение установлено!");
+            Console.WriteLine("✅ Соединение с БД установлено!");
             return connection;
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Ошибка при подключении к базе данных: " + ex.Message);
+            Console.WriteLine("❌ Ошибка при подключении: " + ex.Message);
             return null;
         }
     }
 
     private static bool DatabaseExists(string databaseName)
     {
-        string checkDatabaseQuery = $"SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '{databaseName}'";
-
-        using (MySqlConnection tempConnection = new MySqlConnection(connectionString))
+        using (SqlConnection conn = new SqlConnection(connectionString))
         {
-            tempConnection.Open();
-            MySqlCommand command = new MySqlCommand(checkDatabaseQuery, tempConnection);
-            object result = command.ExecuteScalar();
-            return (result != null && result.ToString() == databaseName);
+            conn.Open();
+            string query = $"SELECT database_id FROM sys.databases WHERE name = '{databaseName}'";
+            SqlCommand cmd = new SqlCommand(query, conn);
+            return cmd.ExecuteScalar() != null;
         }
     }
 
     private static void CreateDatabase()
     {
-        string createDatabaseQuery = $"CREATE DATABASE IF NOT EXISTS {databaseName}";
-
-        using (MySqlConnection tempConnection = new MySqlConnection(connectionString))
+        using (SqlConnection conn = new SqlConnection(connectionString))
         {
-            tempConnection.Open();
-            MySqlCommand command = new MySqlCommand(createDatabaseQuery, tempConnection);
-            command.ExecuteNonQuery();
-            Console.WriteLine("База данных успешно создана.");
+            conn.Open();
+            string query = $"CREATE DATABASE {databaseName}";
+            SqlCommand cmd = new SqlCommand(query, conn);
+            cmd.ExecuteNonQuery();
+            Console.WriteLine("✅ База данных создана.");
         }
     }
 
@@ -70,28 +61,25 @@ public static class DatabaseInitializer
     {
         try
         {
-            string scriptPath = Path.Combine(Environment.CurrentDirectory, scriptFileName);
+            string scriptPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, scriptFileName);
             if (!File.Exists(scriptPath))
             {
-                Console.WriteLine($"Файл {scriptFileName} не найден.");
+                Console.WriteLine($"❌ Файл {scriptFileName} не найден.");
                 return;
             }
 
             string script = File.ReadAllText(scriptPath);
-            Console.WriteLine("Executing SQL script:");
-            Console.WriteLine(script);
-
-            using (MySqlConnection tempConnection = new MySqlConnection(connectionString + $"database={databaseName}"))
+            using (SqlConnection conn = new SqlConnection($"{connectionString}Database={databaseName};"))
             {
-                tempConnection.Open();
-                MySqlCommand command = new MySqlCommand(script, tempConnection);
-                command.ExecuteNonQuery();
-                Console.WriteLine("Скрипт успешно выполнен.");
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(script, conn);
+                cmd.ExecuteNonQuery();
+                Console.WriteLine("✅ Скрипт успешно выполнен.");
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Ошибка при выполнении скрипта: " + ex.Message);
+            Console.WriteLine("❌ Ошибка при выполнении скрипта: " + ex.Message);
         }
     }
 }

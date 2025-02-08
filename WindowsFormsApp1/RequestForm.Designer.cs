@@ -1,7 +1,7 @@
 ﻿
-namespace UniversalCardApp
+namespace WindowsFormsApp1
 {
-    partial class MainForm
+    partial class RequestForm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,8 @@ namespace UniversalCardApp
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RequestForm));
+            this.panel1 = new System.Windows.Forms.Panel();
             this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
             this.mainButton = new Guna.UI2.WinForms.Guna2Button();
             this.guna2PictureBox3 = new Guna.UI2.WinForms.Guna2PictureBox();
@@ -57,29 +58,11 @@ namespace UniversalCardApp
             this.stufffLabel = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2PictureBox10 = new Guna.UI2.WinForms.Guna2PictureBox();
             this.guna2Panel4 = new Guna.UI2.WinForms.Guna2Panel();
-            this.guna2Panel6 = new Guna.UI2.WinForms.Guna2Panel();
-            this.statusLabel6 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.statusLabel5 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.statusLabel4 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.statusLabel3 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.statusLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.statusLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.requestLabel = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.guna2Panel11 = new Guna.UI2.WinForms.Guna2Panel();
-            this.guna2Panel9 = new Guna.UI2.WinForms.Guna2Panel();
-            this.guna2Panel12 = new Guna.UI2.WinForms.Guna2Panel();
-            this.guna2Panel8 = new Guna.UI2.WinForms.Guna2Panel();
-            this.guna2Panel10 = new Guna.UI2.WinForms.Guna2Panel();
-            this.guna2Panel7 = new Guna.UI2.WinForms.Guna2Panel();
-            this.pieChart = new LiveCharts.WinForms.PieChart();
-            this.guna2Panel3 = new Guna.UI2.WinForms.Guna2Panel();
-            this.guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.guna2PictureBox12 = new Guna.UI2.WinForms.Guna2PictureBox();
             this.cardsPanel = new Guna.UI2.WinForms.Guna2Panel();
             this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
-            this.guna2DragControl1 = new Guna.UI2.WinForms.Guna2DragControl(this.components);
             this.notificationPaint = new Guna.UI2.WinForms.Guna2NotificationPaint(this.components);
+            this.guna2DragControl1 = new Guna.UI2.WinForms.Guna2DragControl(this.components);
+            this.panel1.SuspendLayout();
             this.guna2Panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox9)).BeginInit();
@@ -98,11 +81,21 @@ namespace UniversalCardApp
             ((System.ComponentModel.ISupportInitialize)(this.hideButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox10)).BeginInit();
             this.guna2Panel4.SuspendLayout();
-            this.guna2Panel6.SuspendLayout();
-            this.guna2Panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox12)).BeginInit();
             this.cardsPanel.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // panel1
+            // 
+            this.panel1.AutoSize = true;
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(226)))), ((int)(((byte)(232)))));
+            this.panel1.Controls.Add(this.guna2Panel1);
+            this.panel1.Controls.Add(this.guna2Panel2);
+            this.panel1.Controls.Add(this.guna2Panel4);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1282, 782);
+            this.panel1.TabIndex = 2;
             // 
             // guna2Panel1
             // 
@@ -126,7 +119,7 @@ namespace UniversalCardApp
             this.guna2Panel1.Location = new System.Drawing.Point(2, 1);
             this.guna2Panel1.Name = "guna2Panel1";
             this.guna2Panel1.Size = new System.Drawing.Size(224, 780);
-            this.guna2Panel1.TabIndex = 0;
+            this.guna2Panel1.TabIndex = 4;
             // 
             // mainButton
             // 
@@ -151,6 +144,7 @@ namespace UniversalCardApp
             this.mainButton.TabIndex = 15;
             this.mainButton.Text = "Главная";
             this.mainButton.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.mainButton.Click += new System.EventHandler(this.MainButton_Click);
             this.mainButton.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
             this.mainButton.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
             // 
@@ -247,7 +241,6 @@ namespace UniversalCardApp
             this.requestButton.TabIndex = 16;
             this.requestButton.Text = "Заявки";
             this.requestButton.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.requestButton.Click += new System.EventHandler(this.RequestButton_Click);
             this.requestButton.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
             this.requestButton.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
             // 
@@ -426,7 +419,7 @@ namespace UniversalCardApp
             this.guna2Panel2.Location = new System.Drawing.Point(225, 1);
             this.guna2Panel2.Name = "guna2Panel2";
             this.guna2Panel2.Size = new System.Drawing.Size(1056, 70);
-            this.guna2Panel2.TabIndex = 1;
+            this.guna2Panel2.TabIndex = 5;
             // 
             // guna2PictureBox11
             // 
@@ -517,8 +510,6 @@ namespace UniversalCardApp
             // 
             // guna2Panel4
             // 
-            this.guna2Panel4.Controls.Add(this.guna2Panel6);
-            this.guna2Panel4.Controls.Add(this.guna2Panel3);
             this.guna2Panel4.Controls.Add(this.cardsPanel);
             this.guna2Panel4.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(228)))), ((int)(((byte)(242)))), ((int)(((byte)(247)))));
             this.guna2Panel4.Location = new System.Drawing.Point(225, 71);
@@ -526,259 +517,7 @@ namespace UniversalCardApp
             this.guna2Panel4.ShadowDecoration.Depth = 60;
             this.guna2Panel4.ShadowDecoration.Shadow = new System.Windows.Forms.Padding(0, 0, 5, 5);
             this.guna2Panel4.Size = new System.Drawing.Size(1056, 710);
-            this.guna2Panel4.TabIndex = 3;
-            // 
-            // guna2Panel6
-            // 
-            this.guna2Panel6.BackColor = System.Drawing.Color.White;
-            this.guna2Panel6.Controls.Add(this.statusLabel6);
-            this.guna2Panel6.Controls.Add(this.statusLabel5);
-            this.guna2Panel6.Controls.Add(this.statusLabel4);
-            this.guna2Panel6.Controls.Add(this.statusLabel3);
-            this.guna2Panel6.Controls.Add(this.statusLabel2);
-            this.guna2Panel6.Controls.Add(this.statusLabel1);
-            this.guna2Panel6.Controls.Add(this.guna2HtmlLabel1);
-            this.guna2Panel6.Controls.Add(this.requestLabel);
-            this.guna2Panel6.Controls.Add(this.guna2Panel11);
-            this.guna2Panel6.Controls.Add(this.guna2Panel9);
-            this.guna2Panel6.Controls.Add(this.guna2Panel12);
-            this.guna2Panel6.Controls.Add(this.guna2Panel8);
-            this.guna2Panel6.Controls.Add(this.guna2Panel10);
-            this.guna2Panel6.Controls.Add(this.guna2Panel7);
-            this.guna2Panel6.Controls.Add(this.pieChart);
-            this.guna2Panel6.Location = new System.Drawing.Point(613, 448);
-            this.guna2Panel6.Margin = new System.Windows.Forms.Padding(28, 28, 52, 30);
-            this.guna2Panel6.Name = "guna2Panel6";
-            this.guna2Panel6.ShadowDecoration.BorderRadius = 0;
-            this.guna2Panel6.ShadowDecoration.Depth = 60;
-            this.guna2Panel6.ShadowDecoration.Enabled = true;
-            this.guna2Panel6.ShadowDecoration.Shadow = new System.Windows.Forms.Padding(1, 0, 1, 4);
-            this.guna2Panel6.Size = new System.Drawing.Size(392, 232);
-            this.guna2Panel6.TabIndex = 2;
-            // 
-            // statusLabel6
-            // 
-            this.statusLabel6.AutoSize = false;
-            this.statusLabel6.BackColor = System.Drawing.Color.Transparent;
-            this.statusLabel6.Font = new System.Drawing.Font("Segoe UI Light", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.statusLabel6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(73)))));
-            this.statusLabel6.Location = new System.Drawing.Point(266, 169);
-            this.statusLabel6.Margin = new System.Windows.Forms.Padding(6, 40, 0, 6);
-            this.statusLabel6.Name = "statusLabel6";
-            this.statusLabel6.Size = new System.Drawing.Size(116, 21);
-            this.statusLabel6.TabIndex = 39;
-            this.statusLabel6.Text = "всего заявок";
-            // 
-            // statusLabel5
-            // 
-            this.statusLabel5.AutoSize = false;
-            this.statusLabel5.BackColor = System.Drawing.Color.Transparent;
-            this.statusLabel5.Font = new System.Drawing.Font("Segoe UI Light", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.statusLabel5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(73)))));
-            this.statusLabel5.Location = new System.Drawing.Point(266, 144);
-            this.statusLabel5.Margin = new System.Windows.Forms.Padding(6, 40, 0, 6);
-            this.statusLabel5.Name = "statusLabel5";
-            this.statusLabel5.Size = new System.Drawing.Size(116, 21);
-            this.statusLabel5.TabIndex = 38;
-            this.statusLabel5.Text = "всего заявок";
-            // 
-            // statusLabel4
-            // 
-            this.statusLabel4.AutoSize = false;
-            this.statusLabel4.BackColor = System.Drawing.Color.Transparent;
-            this.statusLabel4.Font = new System.Drawing.Font("Segoe UI Light", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.statusLabel4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(73)))));
-            this.statusLabel4.Location = new System.Drawing.Point(266, 119);
-            this.statusLabel4.Margin = new System.Windows.Forms.Padding(6, 40, 0, 6);
-            this.statusLabel4.Name = "statusLabel4";
-            this.statusLabel4.Size = new System.Drawing.Size(116, 21);
-            this.statusLabel4.TabIndex = 37;
-            this.statusLabel4.Text = "всего заявок";
-            // 
-            // statusLabel3
-            // 
-            this.statusLabel3.AutoSize = false;
-            this.statusLabel3.BackColor = System.Drawing.Color.Transparent;
-            this.statusLabel3.Font = new System.Drawing.Font("Segoe UI Light", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.statusLabel3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(73)))));
-            this.statusLabel3.Location = new System.Drawing.Point(266, 93);
-            this.statusLabel3.Margin = new System.Windows.Forms.Padding(6, 40, 0, 6);
-            this.statusLabel3.Name = "statusLabel3";
-            this.statusLabel3.Size = new System.Drawing.Size(116, 21);
-            this.statusLabel3.TabIndex = 36;
-            this.statusLabel3.Text = "всего заявок";
-            // 
-            // statusLabel2
-            // 
-            this.statusLabel2.AutoSize = false;
-            this.statusLabel2.BackColor = System.Drawing.Color.Transparent;
-            this.statusLabel2.Font = new System.Drawing.Font("Segoe UI Light", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.statusLabel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(73)))));
-            this.statusLabel2.Location = new System.Drawing.Point(266, 68);
-            this.statusLabel2.Margin = new System.Windows.Forms.Padding(6, 40, 0, 6);
-            this.statusLabel2.Name = "statusLabel2";
-            this.statusLabel2.Size = new System.Drawing.Size(116, 21);
-            this.statusLabel2.TabIndex = 35;
-            this.statusLabel2.Text = "всего заявок";
-            // 
-            // statusLabel1
-            // 
-            this.statusLabel1.AutoSize = false;
-            this.statusLabel1.BackColor = System.Drawing.Color.Transparent;
-            this.statusLabel1.Font = new System.Drawing.Font("Segoe UI Light", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.statusLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(73)))));
-            this.statusLabel1.Location = new System.Drawing.Point(266, 42);
-            this.statusLabel1.Margin = new System.Windows.Forms.Padding(6, 40, 0, 6);
-            this.statusLabel1.Name = "statusLabel1";
-            this.statusLabel1.Size = new System.Drawing.Size(116, 21);
-            this.statusLabel1.TabIndex = 34;
-            this.statusLabel1.Text = "всего заявок";
-            // 
-            // guna2HtmlLabel1
-            // 
-            this.guna2HtmlLabel1.BackColor = System.Drawing.Color.Transparent;
-            this.guna2HtmlLabel1.Font = new System.Drawing.Font("Segoe UI Semilight", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.guna2HtmlLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(73)))));
-            this.guna2HtmlLabel1.Location = new System.Drawing.Point(63, 117);
-            this.guna2HtmlLabel1.Margin = new System.Windows.Forms.Padding(6, 10, 3, 36);
-            this.guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            this.guna2HtmlLabel1.Size = new System.Drawing.Size(113, 27);
-            this.guna2HtmlLabel1.TabIndex = 33;
-            this.guna2HtmlLabel1.Text = "всего заявок";
-            // 
-            // requestLabel
-            // 
-            this.requestLabel.AutoSize = false;
-            this.requestLabel.BackColor = System.Drawing.Color.Transparent;
-            this.requestLabel.Font = new System.Drawing.Font("Segoe UI", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.requestLabel.Location = new System.Drawing.Point(84, 72);
-            this.requestLabel.Margin = new System.Windows.Forms.Padding(66, 68, 67, 88);
-            this.requestLabel.Name = "requestLabel";
-            this.requestLabel.Size = new System.Drawing.Size(70, 52);
-            this.requestLabel.TabIndex = 33;
-            this.requestLabel.Text = "130";
-            this.requestLabel.TextAlignment = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // guna2Panel11
-            // 
-            this.guna2Panel11.BackColor = System.Drawing.Color.White;
-            this.guna2Panel11.BorderColor = System.Drawing.Color.Transparent;
-            this.guna2Panel11.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(167)))), ((int)(((byte)(192)))), ((int)(((byte)(241)))));
-            this.guna2Panel11.ForeColor = System.Drawing.Color.Transparent;
-            this.guna2Panel11.Location = new System.Drawing.Point(241, 174);
-            this.guna2Panel11.Margin = new System.Windows.Forms.Padding(24, 8, 3, 10);
-            this.guna2Panel11.Name = "guna2Panel11";
-            this.guna2Panel11.Size = new System.Drawing.Size(16, 16);
-            this.guna2Panel11.TabIndex = 5;
-            // 
-            // guna2Panel9
-            // 
-            this.guna2Panel9.BackColor = System.Drawing.Color.White;
-            this.guna2Panel9.BorderColor = System.Drawing.Color.Transparent;
-            this.guna2Panel9.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.guna2Panel9.ForeColor = System.Drawing.Color.Transparent;
-            this.guna2Panel9.Location = new System.Drawing.Point(241, 124);
-            this.guna2Panel9.Margin = new System.Windows.Forms.Padding(24, 8, 3, 10);
-            this.guna2Panel9.Name = "guna2Panel9";
-            this.guna2Panel9.Size = new System.Drawing.Size(16, 16);
-            this.guna2Panel9.TabIndex = 3;
-            // 
-            // guna2Panel12
-            // 
-            this.guna2Panel12.BackColor = System.Drawing.Color.White;
-            this.guna2Panel12.BorderColor = System.Drawing.Color.Transparent;
-            this.guna2Panel12.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(160)))), ((int)(((byte)(119)))));
-            this.guna2Panel12.ForeColor = System.Drawing.Color.Transparent;
-            this.guna2Panel12.Location = new System.Drawing.Point(241, 149);
-            this.guna2Panel12.Margin = new System.Windows.Forms.Padding(24, 8, 3, 10);
-            this.guna2Panel12.Name = "guna2Panel12";
-            this.guna2Panel12.Size = new System.Drawing.Size(16, 16);
-            this.guna2Panel12.TabIndex = 4;
-            // 
-            // guna2Panel8
-            // 
-            this.guna2Panel8.BackColor = System.Drawing.Color.White;
-            this.guna2Panel8.BorderColor = System.Drawing.Color.Transparent;
-            this.guna2Panel8.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(137)))), ((int)(((byte)(120)))));
-            this.guna2Panel8.ForeColor = System.Drawing.Color.Transparent;
-            this.guna2Panel8.Location = new System.Drawing.Point(241, 73);
-            this.guna2Panel8.Margin = new System.Windows.Forms.Padding(24, 8, 3, 10);
-            this.guna2Panel8.Name = "guna2Panel8";
-            this.guna2Panel8.Size = new System.Drawing.Size(16, 16);
-            this.guna2Panel8.TabIndex = 1;
-            // 
-            // guna2Panel10
-            // 
-            this.guna2Panel10.BackColor = System.Drawing.Color.White;
-            this.guna2Panel10.BorderColor = System.Drawing.Color.Transparent;
-            this.guna2Panel10.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(213)))), ((int)(((byte)(136)))));
-            this.guna2Panel10.ForeColor = System.Drawing.Color.Transparent;
-            this.guna2Panel10.Location = new System.Drawing.Point(241, 98);
-            this.guna2Panel10.Margin = new System.Windows.Forms.Padding(24, 8, 3, 10);
-            this.guna2Panel10.Name = "guna2Panel10";
-            this.guna2Panel10.Size = new System.Drawing.Size(16, 16);
-            this.guna2Panel10.TabIndex = 2;
-            // 
-            // guna2Panel7
-            // 
-            this.guna2Panel7.BackColor = System.Drawing.Color.White;
-            this.guna2Panel7.BorderColor = System.Drawing.Color.Transparent;
-            this.guna2Panel7.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(128)))), ((int)(((byte)(136)))));
-            this.guna2Panel7.ForeColor = System.Drawing.Color.Transparent;
-            this.guna2Panel7.Location = new System.Drawing.Point(241, 47);
-            this.guna2Panel7.Margin = new System.Windows.Forms.Padding(24, 8, 3, 10);
-            this.guna2Panel7.Name = "guna2Panel7";
-            this.guna2Panel7.Size = new System.Drawing.Size(16, 16);
-            this.guna2Panel7.TabIndex = 0;
-            // 
-            // pieChart
-            // 
-            this.pieChart.Location = new System.Drawing.Point(14, 10);
-            this.pieChart.Margin = new System.Windows.Forms.Padding(0);
-            this.pieChart.Name = "pieChart";
-            this.pieChart.Size = new System.Drawing.Size(210, 210);
-            this.pieChart.TabIndex = 0;
-            this.pieChart.Text = "pieChart1";
-            // 
-            // guna2Panel3
-            // 
-            this.guna2Panel3.BackColor = System.Drawing.Color.White;
-            this.guna2Panel3.Controls.Add(this.guna2HtmlLabel2);
-            this.guna2Panel3.Controls.Add(this.guna2PictureBox12);
-            this.guna2Panel3.Location = new System.Drawing.Point(613, 43);
-            this.guna2Panel3.Margin = new System.Windows.Forms.Padding(28, 40, 52, 28);
-            this.guna2Panel3.Name = "guna2Panel3";
-            this.guna2Panel3.ShadowDecoration.BorderRadius = 0;
-            this.guna2Panel3.ShadowDecoration.Depth = 60;
-            this.guna2Panel3.ShadowDecoration.Enabled = true;
-            this.guna2Panel3.ShadowDecoration.Shadow = new System.Windows.Forms.Padding(1, 0, 1, 4);
-            this.guna2Panel3.Size = new System.Drawing.Size(392, 380);
-            this.guna2Panel3.TabIndex = 1;
-            // 
-            // guna2HtmlLabel2
-            // 
-            this.guna2HtmlLabel2.BackColor = System.Drawing.Color.Transparent;
-            this.guna2HtmlLabel2.Font = new System.Drawing.Font("Segoe UI Light", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.guna2HtmlLabel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(73)))));
-            this.guna2HtmlLabel2.Location = new System.Drawing.Point(61, 22);
-            this.guna2HtmlLabel2.Margin = new System.Windows.Forms.Padding(3, 3, 3, 12);
-            this.guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            this.guna2HtmlLabel2.Size = new System.Drawing.Size(266, 49);
-            this.guna2HtmlLabel2.TabIndex = 34;
-            this.guna2HtmlLabel2.Text = "События сегодня";
-            // 
-            // guna2PictureBox12
-            // 
-            this.guna2PictureBox12.BackColor = System.Drawing.Color.Transparent;
-            this.guna2PictureBox12.FillColor = System.Drawing.Color.Black;
-            this.guna2PictureBox12.Image = global::WindowsFormsApp1.Properties.Resources.line;
-            this.guna2PictureBox12.ImageRotate = 0F;
-            this.guna2PictureBox12.Location = new System.Drawing.Point(1, 86);
-            this.guna2PictureBox12.Margin = new System.Windows.Forms.Padding(12, 3, 3, 3);
-            this.guna2PictureBox12.Name = "guna2PictureBox12";
-            this.guna2PictureBox12.Size = new System.Drawing.Size(392, 72);
-            this.guna2PictureBox12.TabIndex = 33;
-            this.guna2PictureBox12.TabStop = false;
+            this.guna2Panel4.TabIndex = 6;
             // 
             // cardsPanel
             // 
@@ -791,7 +530,7 @@ namespace UniversalCardApp
             this.cardsPanel.ShadowDecoration.Depth = 60;
             this.cardsPanel.ShadowDecoration.Enabled = true;
             this.cardsPanel.ShadowDecoration.Shadow = new System.Windows.Forms.Padding(1, 0, 1, 4);
-            this.cardsPanel.Size = new System.Drawing.Size(532, 640);
+            this.cardsPanel.Size = new System.Drawing.Size(952, 640);
             this.cardsPanel.TabIndex = 0;
             // 
             // guna2Button1
@@ -818,6 +557,10 @@ namespace UniversalCardApp
             this.guna2Button1.Text = "Профиль";
             this.guna2Button1.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             // 
+            // notificationPaint
+            // 
+            this.notificationPaint.Location = new System.Drawing.Point(1, 0);
+            // 
             // guna2DragControl1
             // 
             this.guna2DragControl1.DockIndicatorColor = System.Drawing.Color.Empty;
@@ -826,25 +569,20 @@ namespace UniversalCardApp
             this.guna2DragControl1.TargetControl = this.guna2Panel2;
             this.guna2DragControl1.UseTransparentDrag = true;
             // 
-            // notificationPaint
-            // 
-            this.notificationPaint.Location = new System.Drawing.Point(1, 0);
-            // 
-            // MainForm
+            // RequestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.ClientSize = new System.Drawing.Size(1282, 782);
-            this.Controls.Add(this.guna2Panel4);
-            this.Controls.Add(this.guna2Panel2);
-            this.Controls.Add(this.guna2Panel1);
+            this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "MainForm";
+            this.Name = "RequestForm";
+            this.RightToLeftLayout = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "MainForm";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.Text = "RequestForm";
+            this.panel1.ResumeLayout(false);
             this.guna2Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox9)).EndInit();
@@ -864,65 +602,44 @@ namespace UniversalCardApp
             ((System.ComponentModel.ISupportInitialize)(this.hideButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox10)).EndInit();
             this.guna2Panel4.ResumeLayout(false);
-            this.guna2Panel6.ResumeLayout(false);
-            this.guna2Panel6.PerformLayout();
-            this.guna2Panel3.ResumeLayout(false);
-            this.guna2Panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox12)).EndInit();
             this.cardsPanel.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+
+        private System.Windows.Forms.Panel panel1;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel1;
         private Guna.UI2.WinForms.Guna2Button mainButton;
-        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox1;
-        private Guna.UI2.WinForms.Guna2Button profileButton;
-        private Guna.UI2.WinForms.Guna2Button hotelsButton;
-        private Guna.UI2.WinForms.Guna2Button ticketsButton;
-        private Guna.UI2.WinForms.Guna2Button clientsButton;
+        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox3;
+        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox9;
+        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox2;
+        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox5;
         private Guna.UI2.WinForms.Guna2Button taskButton;
         private Guna.UI2.WinForms.Guna2Button requestButton;
-        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox2;
-        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox9;
+        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox7;
         private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox8;
         private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox6;
         private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox4;
-        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox7;
-        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox5;
-        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox3;
+        private Guna.UI2.WinForms.Guna2Button ticketsButton;
+        private Guna.UI2.WinForms.Guna2Button clientsButton;
+        private Guna.UI2.WinForms.Guna2Button hotelsButton;
+        private Guna.UI2.WinForms.Guna2Button profileButton;
+        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox1;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel2;
-        private Guna.UI2.WinForms.Guna2Panel guna2Panel4;
-        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox10;
-        private Guna.UI2.WinForms.Guna2HtmlLabel stufffLabel;
+        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox11;
+        private Guna.UI2.WinForms.Guna2PictureBox notificationButton;
+        private Guna.UI2.WinForms.Guna2PictureBox optionsButton;
         private Guna.UI2.WinForms.Guna2PictureBox closeButton;
         private Guna.UI2.WinForms.Guna2PictureBox hideButton;
-        private Guna.UI2.WinForms.Guna2PictureBox optionsButton;
-        private Guna.UI2.WinForms.Guna2PictureBox notificationButton;
-        private Guna.UI2.WinForms.Guna2Panel guna2Panel6;
-        private Guna.UI2.WinForms.Guna2Panel guna2Panel3;
+        private Guna.UI2.WinForms.Guna2HtmlLabel stufffLabel;
+        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox10;
+        private Guna.UI2.WinForms.Guna2Panel guna2Panel4;
         private Guna.UI2.WinForms.Guna2Panel cardsPanel;
-        private Guna.UI2.WinForms.Guna2Panel guna2Panel11;
-        private Guna.UI2.WinForms.Guna2Panel guna2Panel9;
-        private Guna.UI2.WinForms.Guna2Panel guna2Panel12;
-        private Guna.UI2.WinForms.Guna2Panel guna2Panel8;
-        private Guna.UI2.WinForms.Guna2Panel guna2Panel10;
-        private Guna.UI2.WinForms.Guna2Panel guna2Panel7;
-        private LiveCharts.WinForms.PieChart pieChart;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel2;
-        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox12;
-        private Guna.UI2.WinForms.Guna2DragControl guna2DragControl1;
         private Guna.UI2.WinForms.Guna2Button guna2Button1;
-        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox11;
-        private Guna.UI2.WinForms.Guna2HtmlLabel requestLabel;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
-        private Guna.UI2.WinForms.Guna2HtmlLabel statusLabel6;
-        private Guna.UI2.WinForms.Guna2HtmlLabel statusLabel5;
-        private Guna.UI2.WinForms.Guna2HtmlLabel statusLabel4;
-        private Guna.UI2.WinForms.Guna2HtmlLabel statusLabel3;
-        private Guna.UI2.WinForms.Guna2HtmlLabel statusLabel2;
-        private Guna.UI2.WinForms.Guna2HtmlLabel statusLabel1;
         private Guna.UI2.WinForms.Guna2NotificationPaint notificationPaint;
+        private Guna.UI2.WinForms.Guna2DragControl guna2DragControl1;
     }
 }
