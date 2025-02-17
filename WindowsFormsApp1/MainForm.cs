@@ -213,7 +213,7 @@ namespace UniversalCardApp
                     return;
                 }
 
-                string query2 = "SELECT s_name, s_lastName FROM stufff WHERE s_id = @userId";
+                string query2 = "SELECT s_name, s_lastName FROM staff WHERE s_id = @userId";
                 using (SqlCommand cmd = new SqlCommand(query2, connection))
                 {
                     cmd.Parameters.AddWithValue("@userId", userId);
@@ -224,11 +224,11 @@ namespace UniversalCardApp
                             string firstName = reader["s_name"].ToString();
                             string lastName = reader["s_lastName"].ToString();
 
-                            stufffLabel.Text = $"{lastName} {firstName}";
+                            staffLabel.Text = $"{lastName} {firstName}";
                         }
                         else
                         {
-                            stufffLabel.Text = "Пользователь не найден";
+                            staffLabel.Text = "Пользователь не найден";
                         }
                     }
                 }
@@ -580,6 +580,7 @@ namespace UniversalCardApp
             try
             {
                 string sessionToken = File.ReadAllText("session.txt").Trim();
+
                 if (string.IsNullOrEmpty(sessionToken))
                 {
                     MessageBox.Show("Ошибка: токен сессии не найден.");
@@ -589,9 +590,13 @@ namespace UniversalCardApp
                 int userId = -1;
                 string login = string.Empty;
 
+                // Проверка, открыто ли соединение, если нет, открываем
                 if (connection.State != ConnectionState.Open)
+                {
                     connection.Open();
+                }
 
+                // Запрос для получения user_id
                 string query1 = "SELECT user_id FROM user_sessions WHERE token = @token AND expires_at > GETDATE()";
                 using (SqlCommand cmd = new SqlCommand(query1, connection))
                 {
@@ -611,7 +616,8 @@ namespace UniversalCardApp
                     return;
                 }
 
-                string query2 = "SELECT s_login FROM stufff WHERE s_id = @userId";
+                // Запрос для получения логина
+                string query2 = "SELECT s_login FROM staff WHERE s_id = @userId";
                 using (SqlCommand cmd = new SqlCommand(query2, connection))
                 {
                     cmd.Parameters.AddWithValue("@userId", userId);
@@ -629,6 +635,7 @@ namespace UniversalCardApp
                     }
                 }
 
+                // Скрываем текущую форму и передаем подключение в RequestForm
                 this.Hide();
                 RequestForm requestForm = new RequestForm(connection, this);
                 requestForm.Show();
@@ -639,8 +646,11 @@ namespace UniversalCardApp
             }
             finally
             {
+                // Закрываем соединение, если оно открыто
                 if (connection.State == ConnectionState.Open)
+                {
                     connection.Close();
+                }
             }
         }
 

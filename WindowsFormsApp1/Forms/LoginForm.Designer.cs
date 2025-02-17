@@ -44,6 +44,7 @@ namespace WindowsFormsApp1
             this.hideButton = new Guna.UI2.WinForms.Guna2PictureBox();
             this.guna2PictureBox1 = new Guna.UI2.WinForms.Guna2PictureBox();
             this.guna2DragControl1 = new Guna.UI2.WinForms.Guna2DragControl(this.components);
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.guna2Panel1.SuspendLayout();
             this.guna2Panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox5)).BeginInit();
@@ -101,7 +102,7 @@ namespace WindowsFormsApp1
             this.registerButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(137)))), ((int)(((byte)(120)))));
             this.registerButton.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
             this.registerButton.ForeColor = System.Drawing.Color.White;
-            this.registerButton.Location = new System.Drawing.Point(312, 135);
+            this.registerButton.Location = new System.Drawing.Point(302, 137);
             this.registerButton.Name = "registerButton";
             this.registerButton.PressedColor = System.Drawing.Color.Empty;
             this.registerButton.Size = new System.Drawing.Size(128, 32);
@@ -122,7 +123,8 @@ namespace WindowsFormsApp1
             this.enterButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(137)))), ((int)(((byte)(120)))));
             this.enterButton.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
             this.enterButton.ForeColor = System.Drawing.Color.White;
-            this.enterButton.Location = new System.Drawing.Point(206, 135);
+            this.enterButton.Location = new System.Drawing.Point(196, 137);
+            this.enterButton.Margin = new System.Windows.Forms.Padding(3, 12, 12, 3);
             this.enterButton.Name = "enterButton";
             this.enterButton.PressedColor = System.Drawing.Color.Empty;
             this.enterButton.Size = new System.Drawing.Size(96, 32);
@@ -145,7 +147,7 @@ namespace WindowsFormsApp1
             this.loginField.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.loginField.Font = new System.Drawing.Font("Segoe UI Semilight", 12F);
             this.loginField.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.loginField.Location = new System.Drawing.Point(206, 96);
+            this.loginField.Location = new System.Drawing.Point(196, 98);
             this.loginField.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.loginField.Name = "loginField";
             this.loginField.PasswordChar = '\0';
@@ -163,7 +165,8 @@ namespace WindowsFormsApp1
             this.guna2HtmlLabel2.BackColor = System.Drawing.Color.Transparent;
             this.guna2HtmlLabel2.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.guna2HtmlLabel2.ForeColor = System.Drawing.Color.White;
-            this.guna2HtmlLabel2.Location = new System.Drawing.Point(206, 57);
+            this.guna2HtmlLabel2.Location = new System.Drawing.Point(196, 59);
+            this.guna2HtmlLabel2.Margin = new System.Windows.Forms.Padding(196, 24, 12, 3);
             this.guna2HtmlLabel2.Name = "guna2HtmlLabel2";
             this.guna2HtmlLabel2.Size = new System.Drawing.Size(129, 32);
             this.guna2HtmlLabel2.TabIndex = 15;
@@ -238,6 +241,11 @@ namespace WindowsFormsApp1
             this.guna2DragControl1.TargetControl = this.guna2Panel2;
             this.guna2DragControl1.UseTransparentDrag = true;
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -250,7 +258,7 @@ namespace WindowsFormsApp1
             this.Name = "LoginForm";
             this.RightToLeftLayout = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "LoginForm";
+            this.Text = "TripFlow - Авторизация";
             this.guna2Panel1.ResumeLayout(false);
             this.guna2Panel1.PerformLayout();
             this.guna2Panel2.ResumeLayout(false);
@@ -277,5 +285,6 @@ namespace WindowsFormsApp1
         private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox1;
         private Guna.UI2.WinForms.Guna2HtmlLabel messageLabel;
         private Guna.UI2.WinForms.Guna2DragControl guna2DragControl1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
     }
 }

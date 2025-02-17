@@ -262,6 +262,7 @@ namespace WindowsFormsApp1
             this.Name = "LoginFormPass";
             this.RightToLeftLayout = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "TripFlow - Авторизация";
             this.guna2Panel1.ResumeLayout(false);
             this.guna2Panel1.PerformLayout();
             this.guna2Panel2.ResumeLayout(false);

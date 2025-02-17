@@ -59,27 +59,84 @@ public static class DatabaseInitializer
 
     private static void ExecuteScript(string scriptFileName)
     {
+        using (SqlConnection conn = new SqlConnection($"{connectionString}Database={databaseName};"))
+        {
+            conn.Open();
+            using (SqlTransaction transaction = conn.BeginTransaction())
+            {
+                try
+                {
+                    string scriptPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, scriptFileName);
+                    Console.WriteLine($"Путь к файлу скрипта: {scriptPath}");
+                    if (!File.Exists(scriptPath))
+                    {
+                        Console.WriteLine($"❌ Файл {scriptFileName} не найден.");
+                        return;
+                    }
+
+                    string script = File.ReadAllText(scriptPath);
+                    using (SqlCommand cmd = new SqlCommand(script, conn, transaction))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // Вставка начальных данных
+                    InsertInitialData(conn, transaction);
+
+                    // Коммитим транзакцию, если все успешно
+                    transaction.Commit();
+                    Console.WriteLine("✅ Все операции успешно выполнены.");
+                }
+                catch (SqlException ex)
+                {
+                    // Откатываем транзакцию в случае ошибки
+                    transaction.Rollback();
+                    Console.WriteLine($"❌ Ошибка: {ex.Message}");
+                }
+            }
+        }
+    }
+
+    private static void InsertInitialData(SqlConnection conn, SqlTransaction transaction)
+    {
         try
         {
-            string scriptPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, scriptFileName);
-            if (!File.Exists(scriptPath))
-            {
-                Console.WriteLine($"❌ Файл {scriptFileName} не найден.");
-                return;
-            }
+            string insertQuery = @"
+            INSERT INTO status (status_name) 
+            VALUES 
+            ('Не обработана'),
+            ('В работе'),
+            ('Отослана'),
+            ('Аннулирована'),
+            ('ОК'),
+            ('Wait list');
 
-            string script = File.ReadAllText(scriptPath);
-            using (SqlConnection conn = new SqlConnection($"{connectionString}Database={databaseName};"))
+            INSERT INTO touroperators (t_name) 
+            VALUES 
+            ('Pegas Touristik'),
+            ('Fun & Sun'),
+            ('НТК Интурист'),
+            ('Библио Глобус'),
+            ('Anex Tour'),
+            ('Sunmar'),
+            ('Coral Travel'),
+            ('Tez Tour'),
+            ('Алеан'),
+            ('Русский Экспресс'),
+            ('Амботис'),
+            ('SpaceTravel');
+        ";
+
+            using (SqlCommand cmd = new SqlCommand(insertQuery, conn, transaction))
             {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand(script, conn);
                 cmd.ExecuteNonQuery();
-                Console.WriteLine("✅ Скрипт успешно выполнен.");
+                Console.WriteLine("✅ Начальные данные добавлены.");
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine("❌ Ошибка при выполнении скрипта: " + ex.Message);
+            Console.WriteLine("❌ Ошибка при добавлении начальных данных: " + ex.Message);
         }
     }
+
 }

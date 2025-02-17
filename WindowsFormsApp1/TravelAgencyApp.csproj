@@ -108,6 +108,12 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddRequestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddRequestForm.Designer.cs">
+      <DependentUpon>AddRequestForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="db.cs" />
     <Compile Include="LiveCharts\WinForms\Tooltip.cs" />
     <Compile Include="LoginFormPass.cs">
@@ -148,6 +154,9 @@
       <DependentUpon>RegisterForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
+    <EmbeddedResource Include="AddRequestForm.resx">
+      <DependentUpon>AddRequestForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LoginFormPass.resx">
       <DependentUpon>LoginFormPass.cs</DependentUpon>
     </EmbeddedResource>
@@ -190,7 +199,11 @@
     <Content Include="10716887_summer_palm tree_tropical_beach_coconut_icon.ico" />
     <Content Include="database.sql" />
     <None Include="img\phone.png" />
-    <Content Include="phone.png" />
+    <None Include="img\changeRequest.png" />
+    <None Include="img\deleteRequest.png" />
+    <Content Include="img\line_1.png" />
+    <None Include="img\plane.png" />
+    <None Include="img\paidRequest.png" />
     <None Include="img\departureIcon.png" />
     <None Include="img\statusIcon.png" />
     <None Include="img\notification.png" />
