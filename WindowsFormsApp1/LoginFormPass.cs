@@ -104,7 +104,7 @@ namespace WindowsFormsApp1
 
         private string GetStoredPasswordHash(int userId)
         {
-            string query = "SELECT s_password FROM stufff WHERE s_id = @userId";
+            string query = "SELECT s_password FROM staff WHERE s_id = @userId";
             using (SqlCommand cmd = new SqlCommand(query, connection))
             {
                 cmd.Parameters.AddWithValue("@userId", userId);
@@ -121,15 +121,32 @@ namespace WindowsFormsApp1
             }
         }
 
-
         private bool VerifyPassword(string enteredPassword, string storedPasswordHash)
         {
-            return BCrypt.Net.BCrypt.Verify(enteredPassword, storedPasswordHash);
-        }
+            // Хешируем введенный пароль так же, как при регистрации
+            string hashedEnteredPassword = HashPassword(enteredPassword);
 
+            // Сравниваем полученный хеш с тем, что хранится в базе данных
+            return string.Equals(hashedEnteredPassword, storedPasswordHash, StringComparison.OrdinalIgnoreCase);
+        }
+        private string HashPassword(string password)
+        {
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+                StringBuilder builder = new StringBuilder();
+                foreach (byte byteValue in bytes)
+                {
+                    builder.Append(byteValue.ToString("x2"));
+                }
+
+                return builder.ToString();
+            }
+        }
         private int GetUserIdByLogin(string login)
         {
-            string query = "SELECT s_id FROM stufff WHERE s_login = @login";
+            string query = "SELECT s_id FROM staff WHERE s_login = @login";
             using (SqlCommand cmd = new SqlCommand(query, connection))
             {
                 cmd.Parameters.AddWithValue("@login", login);

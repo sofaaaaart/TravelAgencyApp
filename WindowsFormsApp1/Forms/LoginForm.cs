@@ -86,7 +86,7 @@ namespace WindowsFormsApp1
         {
             try
             {
-                string query = "SELECT COUNT(*) FROM stufff WHERE s_login = @login";
+                string query = "SELECT COUNT(*) FROM staff WHERE s_login = @login";
                 using (SqlCommand cmd = new SqlCommand(query, connection))
                 {
                     cmd.Parameters.AddWithValue("@login", login);
@@ -199,5 +199,7 @@ namespace WindowsFormsApp1
         {
             Application.Exit();
         }
+
+
     }
 }

@@ -54,7 +54,7 @@ namespace UniversalCardApp
             this.optionsButton = new Guna.UI2.WinForms.Guna2PictureBox();
             this.closeButton = new Guna.UI2.WinForms.Guna2PictureBox();
             this.hideButton = new Guna.UI2.WinForms.Guna2PictureBox();
-            this.stufffLabel = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.staffLabel = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2PictureBox10 = new Guna.UI2.WinForms.Guna2PictureBox();
             this.guna2Panel4 = new Guna.UI2.WinForms.Guna2Panel();
             this.guna2Panel6 = new Guna.UI2.WinForms.Guna2Panel();
@@ -420,7 +420,7 @@ namespace UniversalCardApp
             this.guna2Panel2.Controls.Add(this.optionsButton);
             this.guna2Panel2.Controls.Add(this.closeButton);
             this.guna2Panel2.Controls.Add(this.hideButton);
-            this.guna2Panel2.Controls.Add(this.stufffLabel);
+            this.guna2Panel2.Controls.Add(this.staffLabel);
             this.guna2Panel2.Controls.Add(this.guna2PictureBox10);
             this.guna2Panel2.FillColor = System.Drawing.Color.White;
             this.guna2Panel2.Location = new System.Drawing.Point(225, 1);
@@ -492,16 +492,16 @@ namespace UniversalCardApp
             this.hideButton.MouseEnter += new System.EventHandler(this.HideButton_MouseEnter);
             this.hideButton.MouseLeave += new System.EventHandler(this.HideButton_MouseLeave);
             // 
-            // stufffLabel
+            // staffLabel
             // 
-            this.stufffLabel.BackColor = System.Drawing.Color.Transparent;
-            this.stufffLabel.Font = new System.Drawing.Font("Segoe UI Semilight", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.stufffLabel.Location = new System.Drawing.Point(77, 9);
-            this.stufffLabel.Margin = new System.Windows.Forms.Padding(6, 10, 3, 36);
-            this.stufffLabel.Name = "stufffLabel";
-            this.stufffLabel.Size = new System.Drawing.Size(154, 27);
-            this.stufffLabel.TabIndex = 30;
-            this.stufffLabel.Text = "Артемьева Софья";
+            this.staffLabel.BackColor = System.Drawing.Color.Transparent;
+            this.staffLabel.Font = new System.Drawing.Font("Segoe UI Semilight", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.staffLabel.Location = new System.Drawing.Point(77, 9);
+            this.staffLabel.Margin = new System.Windows.Forms.Padding(6, 10, 3, 36);
+            this.staffLabel.Name = "staffLabel";
+            this.staffLabel.Size = new System.Drawing.Size(154, 27);
+            this.staffLabel.TabIndex = 30;
+            this.staffLabel.Text = "Артемьева Софья";
             // 
             // guna2PictureBox10
             // 
@@ -843,7 +843,7 @@ namespace UniversalCardApp
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "MainForm";
+            this.Text = "TripFlow";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.guna2Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox3)).EndInit();
@@ -895,7 +895,7 @@ namespace UniversalCardApp
         private Guna.UI2.WinForms.Guna2Panel guna2Panel2;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel4;
         private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox10;
-        private Guna.UI2.WinForms.Guna2HtmlLabel stufffLabel;
+        private Guna.UI2.WinForms.Guna2HtmlLabel staffLabel;
         private Guna.UI2.WinForms.Guna2PictureBox closeButton;
         private Guna.UI2.WinForms.Guna2PictureBox hideButton;
         private Guna.UI2.WinForms.Guna2PictureBox optionsButton;

@@ -37,6 +37,9 @@ namespace WindowsFormsApp1
             this.registerButton = new Guna.UI2.WinForms.Guna2Button();
             this.guna2HtmlLabel6 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2Panel2 = new Guna.UI2.WinForms.Guna2Panel();
+            this.guna2PictureBox5 = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.closeButton = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.hideButton = new Guna.UI2.WinForms.Guna2PictureBox();
             this.guna2Panel3 = new Guna.UI2.WinForms.Guna2Panel();
             this.guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.lastNameField = new Guna.UI2.WinForms.Guna2TextBox();
@@ -46,17 +49,14 @@ namespace WindowsFormsApp1
             this.guna2HtmlLabel3 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.loginField = new Guna.UI2.WinForms.Guna2TextBox();
             this.passwordField = new Guna.UI2.WinForms.Guna2TextBox();
-            this.guna2DragControl1 = new Guna.UI2.WinForms.Guna2DragControl(this.components);
-            this.guna2PictureBox5 = new Guna.UI2.WinForms.Guna2PictureBox();
-            this.closeButton = new Guna.UI2.WinForms.Guna2PictureBox();
-            this.hideButton = new Guna.UI2.WinForms.Guna2PictureBox();
             this.guna2PictureBox1 = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.guna2DragControl1 = new Guna.UI2.WinForms.Guna2DragControl(this.components);
             this.guna2Panel1.SuspendLayout();
             this.guna2Panel2.SuspendLayout();
-            this.guna2Panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.closeButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hideButton)).BeginInit();
+            this.guna2Panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -148,6 +148,44 @@ namespace WindowsFormsApp1
             this.guna2Panel2.Size = new System.Drawing.Size(300, 32);
             this.guna2Panel2.TabIndex = 14;
             // 
+            // guna2PictureBox5
+            // 
+            this.guna2PictureBox5.Image = global::WindowsFormsApp1.Properties.Resources.LogoFull;
+            this.guna2PictureBox5.ImageRotate = 0F;
+            this.guna2PictureBox5.Location = new System.Drawing.Point(14, 6);
+            this.guna2PictureBox5.Name = "guna2PictureBox5";
+            this.guna2PictureBox5.Size = new System.Drawing.Size(104, 24);
+            this.guna2PictureBox5.TabIndex = 15;
+            this.guna2PictureBox5.TabStop = false;
+            // 
+            // closeButton
+            // 
+            this.closeButton.ErrorImage = ((System.Drawing.Image)(resources.GetObject("closeButton.ErrorImage")));
+            this.closeButton.Image = global::WindowsFormsApp1.Properties.Resources.ButtonClose;
+            this.closeButton.ImageRotate = 0F;
+            this.closeButton.InitialImage = ((System.Drawing.Image)(resources.GetObject("closeButton.InitialImage")));
+            this.closeButton.Location = new System.Drawing.Point(266, 4);
+            this.closeButton.Name = "closeButton";
+            this.closeButton.Size = new System.Drawing.Size(23, 23);
+            this.closeButton.TabIndex = 14;
+            this.closeButton.TabStop = false;
+            this.closeButton.Click += new System.EventHandler(this.CloseButton_Click);
+            this.closeButton.MouseEnter += new System.EventHandler(this.CloseButton_MouseEnter);
+            this.closeButton.MouseLeave += new System.EventHandler(this.CloseButton_MouseLeave);
+            // 
+            // hideButton
+            // 
+            this.hideButton.Image = global::WindowsFormsApp1.Properties.Resources.ButtonHide;
+            this.hideButton.ImageRotate = 0F;
+            this.hideButton.Location = new System.Drawing.Point(233, 4);
+            this.hideButton.Name = "hideButton";
+            this.hideButton.Size = new System.Drawing.Size(23, 23);
+            this.hideButton.TabIndex = 13;
+            this.hideButton.TabStop = false;
+            this.hideButton.Click += new System.EventHandler(this.HideButton_Click);
+            this.hideButton.MouseEnter += new System.EventHandler(this.HideButton_MouseEnter);
+            this.hideButton.MouseLeave += new System.EventHandler(this.HideButton_MouseLeave);
+            // 
             // guna2Panel3
             // 
             this.guna2Panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(73)))));
@@ -197,8 +235,8 @@ namespace WindowsFormsApp1
             this.lastNameField.SelectedText = "";
             this.lastNameField.Size = new System.Drawing.Size(234, 32);
             this.lastNameField.TabIndex = 16;
-            this.lastNameField.Enter += new System.EventHandler(this.LastNameField_Enter);
-            this.lastNameField.Leave += new System.EventHandler(this.LastNameField_Leave);
+            this.lastNameField.Enter += new System.EventHandler(this.Field_Enter);
+            this.lastNameField.Leave += new System.EventHandler(this.Field_Leave);
             // 
             // postField
             // 
@@ -222,8 +260,8 @@ namespace WindowsFormsApp1
             this.postField.SelectedText = "";
             this.postField.Size = new System.Drawing.Size(234, 32);
             this.postField.TabIndex = 21;
-            this.postField.Enter += new System.EventHandler(this.PostField_Enter);
-            this.postField.Leave += new System.EventHandler(this.PostField_Leave);
+            this.postField.Enter += new System.EventHandler(this.Field_Enter);
+            this.postField.Leave += new System.EventHandler(this.Field_Leave);
             // 
             // nameField
             // 
@@ -247,8 +285,8 @@ namespace WindowsFormsApp1
             this.nameField.SelectedText = "";
             this.nameField.Size = new System.Drawing.Size(234, 32);
             this.nameField.TabIndex = 20;
-            this.nameField.Enter += new System.EventHandler(this.NameField_Enter);
-            this.nameField.Leave += new System.EventHandler(this.NameField_Leave);
+            this.nameField.Enter += new System.EventHandler(this.Field_Enter);
+            this.nameField.Leave += new System.EventHandler(this.Field_Leave);
             // 
             // guna2HtmlLabel4
             // 
@@ -294,8 +332,8 @@ namespace WindowsFormsApp1
             this.loginField.SelectedText = "";
             this.loginField.Size = new System.Drawing.Size(234, 32);
             this.loginField.TabIndex = 22;
-            this.loginField.Enter += new System.EventHandler(this.LoginField_Enter);
-            this.loginField.Leave += new System.EventHandler(this.LoginField_Leave);
+            this.loginField.Enter += new System.EventHandler(this.Field_Enter);
+            this.loginField.Leave += new System.EventHandler(this.Field_Leave);
             // 
             // passwordField
             // 
@@ -319,54 +357,8 @@ namespace WindowsFormsApp1
             this.passwordField.SelectedText = "";
             this.passwordField.Size = new System.Drawing.Size(234, 32);
             this.passwordField.TabIndex = 23;
-            this.passwordField.Enter += new System.EventHandler(this.PasswordField_Enter);
-            this.passwordField.Leave += new System.EventHandler(this.PasswordField_Leave);
-            // 
-            // guna2DragControl1
-            // 
-            this.guna2DragControl1.DockIndicatorColor = System.Drawing.Color.Empty;
-            this.guna2DragControl1.DockIndicatorTransparencyValue = 0.6D;
-            this.guna2DragControl1.DragStartTransparencyValue = 1D;
-            this.guna2DragControl1.TargetControl = this.guna2Panel2;
-            this.guna2DragControl1.UseTransparentDrag = true;
-            // 
-            // guna2PictureBox5
-            // 
-            this.guna2PictureBox5.Image = global::WindowsFormsApp1.Properties.Resources.LogoFull;
-            this.guna2PictureBox5.ImageRotate = 0F;
-            this.guna2PictureBox5.Location = new System.Drawing.Point(14, 6);
-            this.guna2PictureBox5.Name = "guna2PictureBox5";
-            this.guna2PictureBox5.Size = new System.Drawing.Size(104, 24);
-            this.guna2PictureBox5.TabIndex = 15;
-            this.guna2PictureBox5.TabStop = false;
-            // 
-            // closeButton
-            // 
-            this.closeButton.ErrorImage = ((System.Drawing.Image)(resources.GetObject("closeButton.ErrorImage")));
-            this.closeButton.Image = global::WindowsFormsApp1.Properties.Resources.ButtonClose;
-            this.closeButton.ImageRotate = 0F;
-            this.closeButton.InitialImage = ((System.Drawing.Image)(resources.GetObject("closeButton.InitialImage")));
-            this.closeButton.Location = new System.Drawing.Point(266, 4);
-            this.closeButton.Name = "closeButton";
-            this.closeButton.Size = new System.Drawing.Size(23, 23);
-            this.closeButton.TabIndex = 14;
-            this.closeButton.TabStop = false;
-            this.closeButton.Click += new System.EventHandler(this.CloseButton_Click);
-            this.closeButton.MouseEnter += new System.EventHandler(this.CloseButton_MouseEnter);
-            this.closeButton.MouseLeave += new System.EventHandler(this.CloseButton_MouseLeave);
-            // 
-            // hideButton
-            // 
-            this.hideButton.Image = global::WindowsFormsApp1.Properties.Resources.ButtonHide;
-            this.hideButton.ImageRotate = 0F;
-            this.hideButton.Location = new System.Drawing.Point(233, 4);
-            this.hideButton.Name = "hideButton";
-            this.hideButton.Size = new System.Drawing.Size(23, 23);
-            this.hideButton.TabIndex = 13;
-            this.hideButton.TabStop = false;
-            this.hideButton.Click += new System.EventHandler(this.HideButton_Click);
-            this.hideButton.MouseEnter += new System.EventHandler(this.HideButton_MouseEnter);
-            this.hideButton.MouseLeave += new System.EventHandler(this.HideButton_MouseLeave);
+            this.passwordField.Enter += new System.EventHandler(this.Field_Enter);
+            this.passwordField.Leave += new System.EventHandler(this.Field_Leave);
             // 
             // guna2PictureBox1
             // 
@@ -381,6 +373,14 @@ namespace WindowsFormsApp1
             this.guna2PictureBox1.TabIndex = 13;
             this.guna2PictureBox1.TabStop = false;
             // 
+            // guna2DragControl1
+            // 
+            this.guna2DragControl1.DockIndicatorColor = System.Drawing.Color.Empty;
+            this.guna2DragControl1.DockIndicatorTransparencyValue = 0.6D;
+            this.guna2DragControl1.DragStartTransparencyValue = 1D;
+            this.guna2DragControl1.TargetControl = this.guna2Panel2;
+            this.guna2DragControl1.UseTransparentDrag = true;
+            // 
             // RegisterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -393,16 +393,16 @@ namespace WindowsFormsApp1
             this.Name = "RegisterForm";
             this.RightToLeftLayout = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "RegisterForm";
+            this.Text = "TripFlow - Регистрация";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RegisterForm_FormClosing);
             this.guna2Panel1.ResumeLayout(false);
             this.guna2Panel1.PerformLayout();
             this.guna2Panel2.ResumeLayout(false);
-            this.guna2Panel3.ResumeLayout(false);
-            this.guna2Panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.closeButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hideButton)).EndInit();
+            this.guna2Panel3.ResumeLayout(false);
+            this.guna2Panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox1)).EndInit();
             this.ResumeLayout(false);
 

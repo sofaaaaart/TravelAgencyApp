@@ -29,6 +29,12 @@ namespace WindowsFormsApp1
             InitializeComponent();
             connection = InitializeDatabase();
             InitializeImages();
+
+            lastNameField.Tag = "Фамилия";
+            nameField.Tag = "Имя";
+            postField.Tag = "Должность";
+            loginField.Tag = "Логин";
+            passwordField.Tag = "Пароль";
         }
 
 
@@ -68,10 +74,8 @@ namespace WindowsFormsApp1
         }
 
 
-
         private void RegisterButton_Click(object sender, EventArgs e)
         {
-
             // Проверяем поля на подсказки или пустые значения
             if (lastNameField.Text == "Фамилия" || string.IsNullOrWhiteSpace(lastNameField.Text) ||
                 nameField.Text == "Имя" || string.IsNullOrWhiteSpace(nameField.Text) ||
@@ -79,7 +83,6 @@ namespace WindowsFormsApp1
                 loginField.Text == "Логин" || string.IsNullOrWhiteSpace(loginField.Text) ||
                 passwordField.Text == "Пароль" || string.IsNullOrWhiteSpace(passwordField.Text))
             {
-
                 UpdateMessage("    Заполните все поля", Color.Red);
                 return;
             }
@@ -87,7 +90,6 @@ namespace WindowsFormsApp1
             // Проверяем, существует ли пользователь
             if (IsUserExist())
             {
-
                 UpdateMessage("Такой логин уже занят", Color.Red);
                 return;
             }
@@ -95,10 +97,9 @@ namespace WindowsFormsApp1
             // Хэшируем пароль перед его сохранением
             string hashedPassword = HashPassword(passwordField.Text.Trim());
 
-
             // Используем SqlCommand для работы с SQL Server
-            SqlCommand command = new SqlCommand("INSERT INTO stufff (s_id, s_lastName, s_name, s_post, s_login, s_password, reg_date) " +
-                "VALUES (NULL, @lastName, @name, @post, @login, @password, GETDATE());", connection);
+            SqlCommand command = new SqlCommand("INSERT INTO staff (s_lastName, s_name, s_post, s_login, s_password, reg_date) " +
+                "VALUES (@lastName, @name, @post, @login, @password, GETDATE());", connection);
 
             command.Parameters.Add("@lastName", SqlDbType.VarChar).Value = lastNameField.Text.Trim();
             command.Parameters.Add("@name", SqlDbType.VarChar).Value = nameField.Text.Trim();
@@ -111,7 +112,8 @@ namespace WindowsFormsApp1
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
 
-                if (command.ExecuteNonQuery() == 1)
+                int rowsAffected = command.ExecuteNonQuery();
+                if (rowsAffected == 1)
                 {
                     messageLabel.Text = "Аккаунт создан";
                     messageLabel.ForeColor = Color.Green;
@@ -125,12 +127,14 @@ namespace WindowsFormsApp1
                 {
                     messageLabel.Text = "Ошибка создания аккаунта.";
                     messageLabel.ForeColor = Color.Red;
+                    Console.WriteLine("Ошибка: Не удалось создать аккаунт. Невозможно выполнить запрос в базе данных.");
                 }
             }
             catch (Exception ex)
             {
                 messageLabel.Text = "Ошибка: " + ex.Message;
                 messageLabel.ForeColor = Color.Red;
+                Console.WriteLine("Ошибка при регистрации пользователя: " + ex.Message); // Выводим ошибку в консоль
             }
             finally
             {
@@ -138,25 +142,26 @@ namespace WindowsFormsApp1
                     connection.Close();
             }
         }
+
         public bool IsUserExist()
         {
             try
             {
-                SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM stufff WHERE s_login = @sl", connection);
+                SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM staff WHERE s_login = @sl", connection);
                 command.Parameters.Add("@sl", SqlDbType.VarChar).Value = loginField.Text.Trim();
-
 
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
 
                 int count = Convert.ToInt32(command.ExecuteScalar());
-                return count > 0;
+                return count > 0; // Если пользователь существует, возвращаем true
             }
             catch (Exception ex)
             {
                 messageLabel.Text = "Ошибка проверки существования пользователя: " + ex.Message;
                 messageLabel.ForeColor = Color.Red;
-                return true;
+                Console.WriteLine("Ошибка при проверке существования пользователя: " + ex.Message); // Выводим ошибку в консоль
+                return false; // Возвращаем false в случае ошибки, чтобы регистрация продолжалась
             }
             finally
             {
@@ -167,108 +172,62 @@ namespace WindowsFormsApp1
 
         private string HashPassword(string password)
         {
-            using (SHA256 sha256Hash = SHA256.Create())
+            try
             {
-                // Преобразуем строку пароля в байты и хэшируем
-                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
-
-                // Преобразуем байты в строку (шестнадцатеричное представление)
-                StringBuilder builder = new StringBuilder();
-                foreach (byte byteValue in bytes)
+                using (SHA256 sha256Hash = SHA256.Create())
                 {
-                    builder.Append(byteValue.ToString("x2"));
+                    // Преобразуем строку пароля в байты и хэшируем
+                    byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+                    // Преобразуем байты в строку (шестнадцатеричное представление)
+                    StringBuilder builder = new StringBuilder();
+                    foreach (byte byteValue in bytes)
+                    {
+                        builder.Append(byteValue.ToString("x2"));
+                    }
+
+                    return builder.ToString(); // Возвращаем хэшированный пароль
                 }
-
-                return builder.ToString(); // Возвращаем хэшированный пароль
             }
-        }
-
-        private void LastNameField_Enter(object sender, EventArgs e)
-        {
-            if (this.lastNameField.Text == "Фамилия")
+            catch (Exception ex)
             {
-                this.lastNameField.Text = string.Empty;
-                this.lastNameField.ForeColor = Color.Black;
-            }
-        }
-        private void LastNameField_Leave(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(this.lastNameField.Text))
-            {
-                this.lastNameField.Text = "Фамилия";
-                this.lastNameField.ForeColor = Color.FromArgb(125, 137, 149);
+                Console.WriteLine("Ошибка при хэшировании пароля: " + ex.Message); // Выводим ошибку в консоль
+                throw; // Прокидываем исключение дальше
             }
         }
 
-        private void NameField_Enter(object sender, EventArgs e)
+        private void Field_Enter(object sender, EventArgs e)
         {
-            if (this.nameField.Text == "Имя")
+            var field = sender as Control;
+            if (field != null && field.Text == field.Tag.ToString())
             {
-                this.nameField.Text = string.Empty;
-                this.nameField.ForeColor = Color.Black;
-            }
-        }
-        private void NameField_Leave(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(this.nameField.Text))
-            {
-                this.nameField.Text = "Имя";
-                this.nameField.ForeColor = Color.FromArgb(125, 137, 149);
+                field.Text = string.Empty;
+                field.ForeColor = Color.Black;
+
+                // Проверяем, является ли поле Guna2TextBox
+                if (field == passwordField)
+                {
+                    passwordField.UseSystemPasswordChar = true;
+                }
             }
         }
 
-        private void PostField_Enter(object sender, EventArgs e)
+        private void Field_Leave(object sender, EventArgs e)
         {
-            if (this.postField.Text == "Должность")
+            var field = sender as Control;
+            if (field != null && string.IsNullOrWhiteSpace(field.Text))
             {
-                this.postField.Text = string.Empty;
-                this.postField.ForeColor = Color.Black;
-            }
-        }
-        private void PostField_Leave(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(this.postField.Text))
-            {
-                this.postField.Text = "Должность";
-                this.postField.ForeColor = Color.FromArgb(125, 137, 149);
+                field.Text = field.Tag.ToString();
+                field.ForeColor = Color.FromArgb(125, 137, 149);
+
+                // Проверяем, является ли поле Guna2TextBox
+                if (field == passwordField)
+                {
+                    passwordField.UseSystemPasswordChar = false;
+                }
             }
         }
 
-        private void LoginField_Enter(object sender, EventArgs e)
-        {
-            if (this.loginField.Text == "Логин")
-            {
-                this.loginField.Text = string.Empty;
-                this.loginField.ForeColor = Color.Black;
-            }
-        }
-        private void LoginField_Leave(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(this.loginField.Text))
-            {
-                this.loginField.Text = "Логин";
-                this.loginField.ForeColor = Color.FromArgb(125, 137, 149);
-            }
-        }
-
-        private void PasswordField_Enter(object sender, EventArgs e)
-        {
-            if (this.passwordField.Text == "Пароль")
-            {
-                this.passwordField.Text = string.Empty;
-                this.passwordField.UseSystemPasswordChar = true;
-                this.passwordField.ForeColor = Color.Black;
-            }
-        }
-        private void PasswordField_Leave(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(this.passwordField.Text))
-            {
-                this.passwordField.UseSystemPasswordChar = false;
-                this.passwordField.Text = "Пароль";
-                this.passwordField.ForeColor = Color.FromArgb(125, 137, 149);
-            }
-        }
 
 
         private void HideButton_MouseEnter(object sender, EventArgs e)
